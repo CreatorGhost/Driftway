@@ -182,6 +182,8 @@
                             app:iconPadding="8dp"
                             app:cornerRadius="24dp" />
 
+                        <!-- Photo-only/ambient mode retired per owner decision; button hidden here,
+                             full feature + custom-background removed in the rebrand cleanup stage. -->
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/buttonStartPagePhotoOnly"
                             style="?attr/materialButtonTonalStyle"
@@ -191,6 +193,7 @@
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
                             android:text="@string/start_page_photo_only"
+                            android:visibility="gone"
                             app:icon="@drawable/crop_free_24px"
                             app:iconGravity="textStart"
                             app:iconPadding="8dp"

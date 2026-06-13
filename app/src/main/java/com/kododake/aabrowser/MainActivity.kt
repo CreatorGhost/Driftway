@@ -2309,6 +2309,13 @@ class MainActivity : AppCompatActivity() {
         }
         if (mappedTitle != null) return mappedTitle
 
+        // IP addresses / localhost / single-label hosts have no meaningful "primary segment"
+        // (e.g. "10.0.2.2" would title to "10"). Show the full host/label instead.
+        val isIpOrLocal = normalizedHost == "localhost" ||
+            normalizedHost.matches(Regex("^(\\d{1,3}\\.){3}\\d{1,3}$")) ||
+            !normalizedHost.contains('.')
+        if (isIpOrLocal) return displayLabelForUrl(url)
+
         val primarySegment = normalizedHost
             .substringBefore('.')
             .split('-', '_')
@@ -2532,6 +2539,7 @@ class MainActivity : AppCompatActivity() {
         // the brand home is always this look. The glow keeps it "not too dark"; when the user sets a
         // photo background we drop a balanced legibility scrim instead (see updateStartPageScrim()).
         // cachedStartPageGradientSignature is reset to 0 on config changes to force a rebuild.
+        if (!::binding.isInitialized) return
         if (cachedStartPageGradientSignature == 1) return
         val density = resources.displayMetrics.density
 
@@ -2647,6 +2655,7 @@ class MainActivity : AppCompatActivity() {
                     addView(MaterialTextView(this@MainActivity).apply {
                         text = displayTitleForUrl(url)
                         maxLines = 1
+                        maxWidth = dp(220f) // cap growth so a long last-URL can't push the chip off-screen
                         ellipsize = TextUtils.TruncateAt.END
                         setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_TitleMedium)
                         setTextColor(android.graphics.Color.parseColor("#F2F5FB"))
