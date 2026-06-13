@@ -1772,7 +1772,11 @@ class MainActivity : AppCompatActivity() {
         if (customView == null) return
         binding.fullscreenContainer.apply { removeAllViews(); visibility = View.GONE }
         webView?.visibility = if (isShowingStartPage) View.INVISIBLE else View.VISIBLE
-        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        // Don't drop keep-screen-on if media is still actively playing (e.g. the system
+        // backgrounded a playing fullscreen video) — playback state owns the flag in that case.
+        if (!isMediaPlaying) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
         WindowInsetsControllerCompat(window, binding.root).show(WindowInsetsCompat.Type.systemBars())
         val callback = customViewCallback
         customView = null
@@ -1855,10 +1859,18 @@ class MainActivity : AppCompatActivity() {
                     lastMediaDurationMs = state.durationMs
                     controller.updateMetadata(state.title, state.artist, null, state.durationMs)
                 }
-                hasActiveMediaSession = true
                 if (!isMediaPlaying) {
+                    // Only mark the session active if focus was actually granted — otherwise the
+                    // flags would stay stuck true and onPause/onStop would never pause the WebView.
+                    val started = controller.onPlaybackStarted(state.positionMs)
+                    if (!started) {
+                        isMediaPlaying = false
+                        hasActiveMediaSession = false
+                        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                        return
+                    }
                     isMediaPlaying = true
-                    controller.onPlaybackStarted(state.positionMs)
+                    hasActiveMediaSession = true
                 } else {
                     controller.onPlaybackProgress(state.positionMs)
                 }

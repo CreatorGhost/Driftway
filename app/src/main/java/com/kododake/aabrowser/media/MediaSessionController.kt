@@ -74,16 +74,18 @@ class MediaSessionController(
 
     val sessionToken: MediaSessionCompat.Token get() = session.sessionToken
 
-    fun onPlaybackStarted(positionMs: Long) {
+    /** @return true if playback actually started (audio focus granted), false if denied. */
+    fun onPlaybackStarted(positionMs: Long): Boolean {
         // If focus is denied (e.g. a phone call holds it), don't go PLAYING / start the FGS — tell
         // the page to pause so we never play over another app or create conflicting media state.
         if (!requestAudioFocus()) {
             callback.onPause()
-            return
+            return false
         }
         session.isActive = true
         setState(PlaybackStateCompat.STATE_PLAYING, positionMs)
         MediaPlaybackService.start(context, sessionToken)
+        return true
     }
 
     /** Lightweight position refresh for an already-playing session (no focus/service churn). */

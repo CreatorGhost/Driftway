@@ -157,12 +157,12 @@ fun configureWebView(
                 val host = uri.host?.lowercase().orEmpty()
                 if (AdBlockManager.enabled && !allowlisted) {
                     view.evaluateJavascript(AdBlockManager.cosmeticCssJs(), null)
-                    if (host.endsWith("facebook.com")) {
+                    if (isHostOrSubdomainOf(host, "facebook.com")) {
                         view.evaluateJavascript(AdBlockManager.FACEBOOK_COSMETIC_JS, null)
                     }
                 }
                 // SponsorBlock is independently opt-in (it contacts a third-party server).
-                if (host.endsWith("youtube.com") &&
+                if (isHostOrSubdomainOf(host, "youtube.com") &&
                     com.kododake.aabrowser.data.BrowserPreferences.isSponsorBlockEnabled(view.context)
                 ) {
                     view.evaluateJavascript(SponsorBlock.JS, null)
@@ -330,6 +330,13 @@ fun configureWebView(
         })
     }
 }
+
+/**
+ * True if [host] equals [domain] or is a true subdomain of it (dot-boundary match), so that
+ * "evil-facebook.com" / "notyoutube.com" do NOT match — only "facebook.com" / "m.youtube.com" do.
+ */
+private fun isHostOrSubdomainOf(host: String, domain: String): Boolean =
+    host == domain || host.endsWith(".$domain")
 
 private fun handleCleartextIfNeeded(view: WebView, uri: Uri?, callbacks: BrowserCallbacks, onPageStart: Boolean = false): Boolean {
     uri ?: return false
