@@ -132,9 +132,12 @@ object BrowserPreferences {
     }
 
     fun toggleDesktopMode(context: Context): Boolean {
-        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val useDesktop = !prefs.getBoolean(KEY_DESKTOP_MODE, false)
-        prefs.edit().putBoolean(KEY_DESKTOP_MODE, useDesktop).apply()
+        // Negate the EFFECTIVE current state (which honors the car/large-display smart default),
+        // not the raw stored value — otherwise the first toggle on a car display writes `true`
+        // again (no visible change) instead of disabling desktop mode.
+        val useDesktop = !shouldUseDesktopMode(context)
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .edit().putBoolean(KEY_DESKTOP_MODE, useDesktop).apply()
         return useDesktop
     }
 

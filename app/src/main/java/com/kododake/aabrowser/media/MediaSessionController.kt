@@ -75,7 +75,12 @@ class MediaSessionController(
     val sessionToken: MediaSessionCompat.Token get() = session.sessionToken
 
     fun onPlaybackStarted(positionMs: Long) {
-        requestAudioFocus()
+        // If focus is denied (e.g. a phone call holds it), don't go PLAYING / start the FGS — tell
+        // the page to pause so we never play over another app or create conflicting media state.
+        if (!requestAudioFocus()) {
+            callback.onPause()
+            return
+        }
         session.isActive = true
         setState(PlaybackStateCompat.STATE_PLAYING, positionMs)
         MediaPlaybackService.start(context, sessionToken)
@@ -130,16 +135,19 @@ class MediaSessionController(
             PlaybackStateCompat.ACTION_PLAY_PAUSE or
             PlaybackStateCompat.ACTION_STOP or
             PlaybackStateCompat.ACTION_SEEK_TO
+        // Playback speed must be 0 for non-playing states so media UIs don't advance the
+        // displayed position while paused/stopped.
+        val speed = if (state == PlaybackStateCompat.STATE_PLAYING) 1f else 0f
         session.setPlaybackState(
             PlaybackStateCompat.Builder()
                 .setActions(actions)
-                .setState(state, positionMs, 1f, SystemClock.elapsedRealtime())
+                .setState(state, positionMs, speed, SystemClock.elapsedRealtime())
                 .build()
         )
     }
 
-    private fun requestAudioFocus() {
-        if (hasAudioFocus) return
+    private fun requestAudioFocus(): Boolean {
+        if (hasAudioFocus) return true
         val attrs = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_MEDIA)
             .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE)
@@ -152,6 +160,7 @@ class MediaSessionController(
         audioFocusRequest = request
         hasAudioFocus =
             audioManager.requestAudioFocus(request) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
+        return hasAudioFocus
     }
 
     private fun abandonAudioFocus() {

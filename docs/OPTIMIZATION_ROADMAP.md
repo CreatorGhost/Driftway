@@ -28,8 +28,9 @@
 ---
 
 ## Sprint Q — Quick Wins (design-agnostic, ship first)
-> All 9 implemented on branch `feat/quick-wins-batch`. ✅ `BUILD SUCCESSFUL` (debug APK built,
-> 2026-06-13). Not yet committed (awaiting user). `local.properties` set to local SDK (gitignored).
+> All 9 implemented. ✅ `BUILD SUCCESSFUL` (debug APK built, 2026-06-13). Committed on
+> `feat/ux-perf-video-audio` (PR #1). `local.properties` points at the local SDK (gitignored).
+
 | ID | St | Item | Sev | Eff | Imp | Notes |
 |----|----|------|-----|-----|-----|-------|
 | Q1 | [x] | Gate `DynamicColors` behind a "Use system colors" toggle (default OFF) so the curated brand/AMOLED theme actually ships | high | small | high | `MainActivity.onCreate` gated; pref + appearance toggle added; recreate on change |
@@ -45,6 +46,7 @@
 ---
 
 ## Sprint 0 — Foundation (de-risks everything; do before deep refactors)
+
 | ID | St | Item | Sev | Eff | Imp | Notes |
 |----|----|------|-----|-----|-----|-------|
 | F1 | [ ] | Introduce a `ViewModel` for tab list + UI state (survive config changes) | med | large | high | enables config-change correctness, kills god-class state |
@@ -59,6 +61,7 @@
 ## Sprint A — Expressive Aurora (CHOSEN design direction — 2026-06-13)
 > User chose **Expressive Aurora**. Accent color still to confirm (amber-coral vs teal). Build
 > the shared foundation first; layer the signature flourishes after. Each step verified by build.
+
 | ID | St | Item | Eff | Notes |
 |----|----|------|-----|-------|
 | A1 | [ ] | Bump `com.google.android.material` 1.13.0 → 1.14.x; switch base theme to a `Material3Expressive` variant | small | gating dep for Expressive APIs; verify build resolves 1.14.x |
@@ -73,6 +76,7 @@
 | A10 | [ ] | Floating/docked toolbar of large browser controls (replaces loose FAB + icon row) | medium | |
 
 ## Sprint 1 — UI/UX polish + anti-lag  *(general polish; visual identity handled in Sprint A)*
+
 | ID | St | Item | Sev | Eff | Imp | Notes |
 |----|----|------|-----|-----|-----|-------|
 | U1 | [~] | Adopt chosen premium design language (theme/typography/shape/color) | high | large | high | **= Sprint A (Expressive Aurora)** |
@@ -90,6 +94,7 @@
 ---
 
 ## Sprint 2 — Video (Netflix / YouTube / Crunchyroll)
+
 | ID | St | Item | Sev | Eff | Imp | Notes |
 |----|----|------|-----|-----|-----|-------|
 | V1 | [ ] | Default/per-host desktop UA for streaming sites (covered partly by Q3) | high | small | high | |
@@ -112,6 +117,7 @@
 > ads = achievable (Brave-class). YouTube video ads = NOT durably solvable** (first-party
 > same-endpoint ads + anti-adblock locker + server-side SSAI). It's a perpetual maintenance
 > commitment, not a one-time feature. Honest expectation must be set with the user.
+
 | ID | St | Item | Eff | Notes |
 |----|----|------|-----|-------|
 | AD1 | [ ] | Settings toggle + per-site allowlist + global off (mirror cleartext-host pattern) | small | safety valve for breakage |
@@ -126,6 +132,7 @@
 | AD10 | [ ] | Head-unit perf + correctness validation (latency, RAM, Widevine/OAuth/downloads still work) | medium | |
 
 ## Sprint 3 — Login UX  *(verdict: cross-browser import NOT possible; "log in once, stay logged in" IS)*
+
 | ID | St | Item | Sev | Eff | Imp | Notes |
 |----|----|------|-----|-----|-----|-------|
 | L1 | [ ] | Cookie flush (= Q2) | high | trivial | high | prerequisite |
@@ -137,6 +144,7 @@
 ---
 
 ## Sprint X — Foundation / Security / Build hardening
+
 | ID | St | Item | Sev | Eff | Imp | Notes |
 |----|----|------|-----|-----|-----|-------|
 | X1 | [ ] | Telemetry consent (= Q8) | high | small | high | |
@@ -160,6 +168,7 @@
 > 2. **Cockpit Noir** — instrument-grade dark HMI, build-from-black, one accent. *medium, works on 1.13 today.*
 > 3. **Liquid Cockpit** — premium "liquid glass" mesh-gradient + frosted chrome. *large, highest risk.*
 > 4. **Bento Brutalist** — oversized bento tiles + huge editorial type. *small, cheapest/safest.*
+
 | St | Item |
 |----|------|
 | [x] | Research Material 3 **Expressive** (Google 2025) vs the dated-looking baseline M3 |
@@ -184,6 +193,7 @@
 
 ## Quality gate — review of quick-wins + video sprint (run `wig3eqh4t`, 22 agents, 0 false positives)
 All confirmed findings fixed on `feat/quick-wins-batch`:
+
 | # | St | Finding | Fix |
 |---|----|---------|-----|
 | MF1 | [x] | FGS background-start can crash (`ForegroundServiceStartNotAllowedException`) | `runCatching` around `startForegroundService` |

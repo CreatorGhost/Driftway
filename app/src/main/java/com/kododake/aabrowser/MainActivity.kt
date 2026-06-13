@@ -214,12 +214,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        // Backstop for true backgrounding. Keep the WebView running when there's an active media
-        // session so audio continues in the background / while driving (the foreground service
-        // keeps the process alive). The video surface is gone (fullscreen exited) but audio —
-        // the legitimate part — survives.
+        // Always tear down fullscreen on true backgrounding so the custom-view + system-bar state
+        // can't be left stale. Keep the WebView itself running only when there's an active media
+        // session, so audio continues in the background / while driving (the foreground service
+        // keeps the process alive); the video surface is gone but audio — the legitimate part — survives.
+        exitFullscreen()
         if (!hasActiveMediaSession) {
-            exitFullscreen()
             webView?.onPause()
         }
         super.onStop()
@@ -1817,13 +1817,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun evalOnMediaTab(js: String) {
         runOnUiThread {
+            // Fail closed: only target the tab that actually owns playback. Falling back to the
+            // active `webView` when ownership is unknown could route play/pause/seek to the wrong tab.
             val target = browserTabs.firstOrNull { it.id == mediaPlayingTabId }?.webView
-                ?: webView
+                ?: return@runOnUiThread
             // The media tab may have been suspended (onPause) across a fg/bg cycle while paused;
             // resume it so a notification Play/transport command can actually reach the page.
-            target?.onResume()
-            target?.resumeTimers()
-            target?.evaluateJavascript(js, null)
+            target.onResume()
+            target.resumeTimers()
+            target.evaluateJavascript(js, null)
         }
     }
 
@@ -1859,17 +1861,18 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     controller.onPlaybackProgress(state.positionMs)
                 }
-                if (!isInFullscreen()) {
-                    window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-                }
+                // Keep the screen awake while playback is advancing (both inline and fullscreen);
+                // symmetric with the unconditional clear in the paused/stopped branches.
+                window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
             "paused" -> {
                 if (tabId != mediaPlayingTabId) return
                 isMediaPlaying = false
                 controller.onPlaybackPaused(state.positionMs)
-                if (!isInFullscreen()) {
-                    window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-                }
+                // Always release the screen-awake flag when playback stops advancing — keeping it
+                // set in fullscreen would defeat the "screen-on tied to playback" behavior and
+                // drain battery. (A live fullscreen video re-adds the flag via its own play event.)
+                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
             "stopped" -> {
                 if (tabId != mediaPlayingTabId) return
@@ -1880,9 +1883,7 @@ class MainActivity : AppCompatActivity() {
                 lastMediaArtist = null
                 lastMediaDurationMs = 0L
                 controller.onPlaybackStopped()
-                if (!isInFullscreen()) {
-                    window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-                }
+                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
         }
     }
