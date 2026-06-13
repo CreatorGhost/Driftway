@@ -1427,7 +1427,7 @@ class MainActivity : AppCompatActivity() {
             if (mode == QuickActionButtonMode.ADDRESS_BAR) {
                 R.drawable.search_24px
             } else {
-                android.R.drawable.ic_menu_more
+                R.drawable.more_vert_24px
             }
         )
         binding.menuFab.contentDescription = getString(
@@ -1860,17 +1860,9 @@ class MainActivity : AppCompatActivity() {
                     controller.updateMetadata(state.title, state.artist, null, state.durationMs)
                 }
                 if (!isMediaPlaying) {
-                    // Only mark the session active if focus was actually granted — otherwise the
-                    // flags would stay stuck true and onPause/onStop would never pause the WebView.
-                    val started = controller.onPlaybackStarted(state.positionMs)
-                    if (!started) {
-                        isMediaPlaying = false
-                        hasActiveMediaSession = false
-                        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-                        return
-                    }
                     isMediaPlaying = true
                     hasActiveMediaSession = true
+                    controller.onPlaybackStarted(state.positionMs)
                 } else {
                     controller.onPlaybackProgress(state.positionMs)
                 }
@@ -2175,6 +2167,9 @@ class MainActivity : AppCompatActivity() {
         val normalizedHost = host.removePrefix("www.").removePrefix("m.")
         val mappedTitle = when (normalizedHost) {
             "youtube.com" -> "YouTube"
+            "netflix.com" -> "Netflix"
+            "crunchyroll.com" -> "Crunchyroll"
+            "animetsu.cc" -> "Animetsu"
             "google.com" -> "Google"
             "twitch.tv" -> "Twitch"
             "kick.com" -> "Kick"
@@ -2527,81 +2522,71 @@ class MainActivity : AppCompatActivity() {
 
     private fun createStartPageSlotCard(slotIndex: Int, url: String?): View {
         val density = resources.displayMetrics.density
+        val isEmpty = url.isNullOrBlank()
+        fun dp(v: Float) = (v * density).toInt()
         return com.google.android.material.card.MaterialCardView(this).apply {
-            radius = 18 * density
-            strokeWidth = (1 * density).toInt()
+            radius = 20 * density
+            strokeWidth = dp(1f)
             strokeColor = resolveThemeColor(com.google.android.material.R.attr.colorOutlineVariant)
             setCardBackgroundColor(resolveThemeColor(com.google.android.material.R.attr.colorSurfaceContainerLowest))
+            isClickable = true
+            isFocusable = true
             setOnClickListener {
-                if (url.isNullOrBlank()) {
+                if (isEmpty) {
                     showMenuOverlay()
                     showBookmarkManager()
                 } else {
-                    loadUrlFromIntent(url)
+                    loadUrlFromIntent(url!!)
                 }
             }
+            setOnLongClickListener {
+                if (!isEmpty) showStartPageSlotPicker(url!!)
+                true
+            }
 
+            // Logo-forward tile: a centered brand logo over a clean site name. No raw URL.
             addView(LinearLayout(this@MainActivity).apply {
                 orientation = LinearLayout.VERTICAL
-                setPadding((16 * density).toInt(), (16 * density).toInt(), (16 * density).toInt(), (16 * density).toInt())
+                gravity = android.view.Gravity.CENTER
+                setPadding(dp(16f), dp(20f), dp(16f), dp(20f))
 
-                addView(LinearLayout(this@MainActivity).apply {
-                    orientation = LinearLayout.HORIZONTAL
-                    gravity = android.view.Gravity.CENTER_VERTICAL
-                    addView(
-                        createSiteIconBadge(
-                            url = url,
-                            sizeDp = 48f,
-                            cornerRadiusDp = 14f,
-                            paddingDp = 8f,
-                            backgroundColor = resolveThemeColor(
-                                if (url.isNullOrBlank()) {
-                                    com.google.android.material.R.attr.colorSecondaryContainer
-                                } else {
-                                    com.google.android.material.R.attr.colorPrimaryContainer
-                                }
-                            ),
-                            showAddOnEmptyUrl = true
-                        )
+                addView(
+                    createSiteIconBadge(
+                        url = url,
+                        sizeDp = 56f,
+                        cornerRadiusDp = 16f,
+                        paddingDp = 10f,
+                        backgroundColor = resolveThemeColor(
+                            if (isEmpty) {
+                                com.google.android.material.R.attr.colorSecondaryContainer
+                            } else {
+                                com.google.android.material.R.attr.colorPrimaryContainer
+                            }
+                        ),
+                        showAddOnEmptyUrl = true
                     )
-
-                    addView(MaterialTextView(this@MainActivity).apply {
-                        layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
-                            marginStart = (12 * density).toInt()
-                        }
-                        text = if (url.isNullOrBlank()) {
-                            getString(R.string.start_page_slot_empty_title)
-                        } else {
-                            displayLabelForUrl(url)
-                        }
-                        setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelMedium)
-                        setTextColor(resolveThemeColor(androidx.appcompat.R.attr.colorPrimary))
-                    })
-                })
+                )
 
                 addView(MaterialTextView(this@MainActivity).apply {
-                    text = if (url.isNullOrBlank()) {
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    ).apply { topMargin = dp(12f) }
+                    text = if (isEmpty) {
                         getString(R.string.start_page_slot_empty_title)
                     } else {
-                        displayTitleForUrl(url)
+                        displayTitleForUrl(url!!)
                     }
-                    setPadding(0, (12 * density).toInt(), 0, 0)
+                    gravity = android.view.Gravity.CENTER
                     maxLines = 1
                     ellipsize = TextUtils.TruncateAt.END
                     setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_TitleMedium)
-                })
-
-                addView(MaterialTextView(this@MainActivity).apply {
-                    text = if (url.isNullOrBlank()) {
-                        getString(R.string.start_page_slot_empty_subtitle)
-                    } else {
-                        url
-                    }
-                    setPadding(0, (6 * density).toInt(), 0, 0)
-                    maxLines = 2
-                    ellipsize = TextUtils.TruncateAt.END
-                    setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodySmall)
-                    setTextColor(resolveThemeColor(com.google.android.material.R.attr.colorOnSurfaceVariant))
+                    setTextColor(
+                        resolveThemeColor(
+                            if (isEmpty) com.google.android.material.R.attr.colorOnSurfaceVariant
+                            else com.google.android.material.R.attr.colorOnSurface
+                        )
+                    )
                 })
             })
         }

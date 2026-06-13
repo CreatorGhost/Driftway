@@ -49,13 +49,14 @@ object BrowserPreferences {
     private const val DEFAULT_URL = "https://www.google.com"
     private const val SEARCH_TEMPLATE = "https://www.google.com/search?q=%s"
 
+    // Media-hub default tiles (first MAX_START_PAGE_SITES fill the start-page slots).
     private val DEFAULT_BOOKMARKS = listOf(
-        "https://www.google.com",
-        "https://youtube.com",
+        "https://www.youtube.com",
+        "https://www.netflix.com",
+        "https://www.crunchyroll.com",
+        "https://animetsu.cc",
         "https://www.twitch.tv",
-        "https://kick.com",
-        "https://weather.com",
-        "https://keepandroidopen.org"
+        "https://www.google.com"
     )
 
     const val MAX_START_PAGE_SITES = 6

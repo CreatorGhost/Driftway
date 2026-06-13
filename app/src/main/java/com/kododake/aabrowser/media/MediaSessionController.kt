@@ -74,18 +74,16 @@ class MediaSessionController(
 
     val sessionToken: MediaSessionCompat.Token get() = session.sessionToken
 
-    /** @return true if playback actually started (audio focus granted), false if denied. */
-    fun onPlaybackStarted(positionMs: Long): Boolean {
-        // If focus is denied (e.g. a phone call holds it), don't go PLAYING / start the FGS — tell
-        // the page to pause so we never play over another app or create conflicting media state.
-        if (!requestAudioFocus()) {
-            callback.onPause()
-            return false
-        }
+    fun onPlaybackStarted(positionMs: Long) {
+        // Best-effort audio focus: request it so other apps duck/pause and so background
+        // continuation works — but DO NOT pause the page if it isn't granted. The video is already
+        // playing in the WebView (Chromium owns that audio stream); car head units contend audio
+        // focus heavily (nav/Assistant hold it), and force-pausing here would stop the video the
+        // user just started. Genuine takeovers are still handled by the focus LOSS listener.
+        requestAudioFocus()
         session.isActive = true
         setState(PlaybackStateCompat.STATE_PLAYING, positionMs)
         MediaPlaybackService.start(context, sessionToken)
-        return true
     }
 
     /** Lightweight position refresh for an already-playing session (no focus/service churn). */
