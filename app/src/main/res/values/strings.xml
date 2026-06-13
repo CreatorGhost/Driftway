@@ -85,6 +85,7 @@
     <string name="media_stop">Stop</string>
     <string name="media_notification_channel">Media playback</string>
     <string name="media_notification_channel_description">Shows playback controls and keeps audio playing in the background.</string>
+    <string name="error_renderer_recovered">The page crashed and was reloaded.</string>
     <string name="settings_display_scale">Display scale</string>
     <string name="settings_display_scale_description">Scale the browser UI and page content together. Applying a new value reloads the screen.</string>
     <string name="settings_scale_option">%1$d%%</string>

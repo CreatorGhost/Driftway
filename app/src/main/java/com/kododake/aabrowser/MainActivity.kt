@@ -138,6 +138,10 @@ class MainActivity : AppCompatActivity() {
     private var lastMediaTitle: String? = null
     private var lastMediaArtist: String? = null
     private var lastMediaDurationMs: Long = 0L
+    // Last-seen config, to decide what changed in onConfigurationChanged (manifest handles these).
+    private var lastUiModeNight: Int = 0
+    private var lastDensityDpi: Int = 0
+    private var lastLocales: String = ""
 
     override fun attachBaseContext(newBase: Context?) {
         if (newBase == null) {
@@ -158,6 +162,11 @@ class MainActivity : AppCompatActivity() {
         shouldForceSessionRestore = savedInstanceState != null
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        resources.configuration.let {
+            lastUiModeNight = it.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+            lastDensityDpi = it.densityDpi
+            lastLocales = it.locales.toLanguageTags()
+        }
         applySystemBarAppearance()
         setupMediaSession()
         com.kododake.aabrowser.adblock.AdBlockManager.initialize(this)
@@ -224,6 +233,32 @@ class MainActivity : AppCompatActivity() {
             webView?.onPause()
         }
         super.onStop()
+    }
+
+    override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // The manifest declares configChanges for uiMode|density|locale|... so the system does NOT
+        // recreate us and AppCompat won't auto-apply night mode. A night/density/locale change
+        // needs a full recreate (theme attrs + the scaled context in attachBaseContext must
+        // re-resolve). Orientation/screen-size alone we absorb without a recreate.
+        val newNight = newConfig.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        val newDensity = newConfig.densityDpi
+        val newLocales = newConfig.locales.toLanguageTags()
+        val needsRecreate = newNight != lastUiModeNight ||
+            newDensity != lastDensityDpi ||
+            newLocales != lastLocales
+        lastUiModeNight = newNight
+        lastDensityDpi = newDensity
+        lastLocales = newLocales
+        if (needsRecreate && !hasActiveMediaSession) {
+            // Avoid yanking a live media session; if media is playing, just refresh chrome colors.
+            recreate()
+            return
+        }
+        applySystemBarAppearance()
+        applyMenuHeaderColors()
+        cachedStartPageGradientSignature = 0
+        refreshStartPage()
     }
 
     override fun onDestroy() {
@@ -814,8 +849,36 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
                     browserTabs.firstOrNull { it.webView === closedWebView }?.let { closeTab(it.id) }
                 }
+            },
+            onRendererGone = { goneWebView, _ ->
+                runOnUiThread { recoverFromRendererGone(goneWebView) }
             }
         )
+    }
+
+    /**
+     * Recovers a tab whose WebView renderer process died (crash / low-memory kill). The dead
+     * WebView can't be reused, so we rebuild the tab at its last URL. Without this, the framework
+     * would kill the whole app when a renderer dies — fatal for an in-car browser.
+     */
+    private fun recoverFromRendererGone(goneWebView: android.webkit.WebView) {
+        val tab = browserTabs.firstOrNull { it.webView === goneWebView } ?: return
+        val wasActive = tab.id == activeTabId
+        val lastUrl = tab.currentUrl.takeIf { it.isNotBlank() }
+        // Tear down the dead tab/WebView, then open a fresh one at the same URL.
+        if (mediaPlayingTabId == tab.id) {
+            mediaPlayingTabId = null
+            isMediaPlaying = false
+            hasActiveMediaSession = false
+            mediaController?.onPlaybackStopped()
+        }
+        closeTab(tab.id)
+        if (lastUrl != null) {
+            createBrowserTab(initialUrl = lastUrl, activate = wasActive)
+        }
+        if (isDebugBuild) {
+            Toast.makeText(this, R.string.error_renderer_recovered, Toast.LENGTH_SHORT).show()
+        }
     }
 
     /**
@@ -1068,8 +1131,10 @@ class MainActivity : AppCompatActivity() {
                 text = if (tab.currentUrl.isBlank()) {
                     getString(R.string.tab_manager_blank_subtitle)
                 } else {
-                    tab.currentUrl
+                    // Clean host instead of the raw full URL; keep the URL for accessibility.
+                    displayLabelForUrl(tab.currentUrl)
                 }
+                if (tab.currentUrl.isNotBlank()) contentDescription = tab.currentUrl
                 maxLines = 1
                 ellipsize = TextUtils.TruncateAt.END
                 setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodySmall)
@@ -1475,9 +1540,14 @@ class MainActivity : AppCompatActivity() {
     private fun setupManualDragLogic() {
         var startY = 0f
         var initialTranslationY = 0f
-        val swipeThreshold = 250f
+        val density = resources.displayMetrics.density
+        // Density-scaled (was a raw 250px that felt huge on dense head units). A short
+        // swipe-down OR a plain TAP on the handle now closes the sheet — matching the close
+        // button and scrim-tap, so the handle no longer feels dead.
+        val swipeThreshold = 120f * density
+        val tapSlop = 12f * density
 
-        binding.dragHandleArea.setOnTouchListener { _, event ->
+        binding.dragHandleArea.setOnTouchListener { v, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     startY = event.rawY
@@ -1495,7 +1565,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     val totalDeltaY = event.rawY - startY
-                    if (totalDeltaY > swipeThreshold) {
+                    val isTap = kotlin.math.abs(totalDeltaY) <= tapSlop
+                    if (isTap) v.performClick()
+                    if (isTap || totalDeltaY > swipeThreshold) {
                         hideMenuOverlay()
                     } else {
                         binding.menuCard.animate()
@@ -2057,13 +2129,15 @@ class MainActivity : AppCompatActivity() {
                 setTextColor(resolveThemeColor(com.google.android.material.R.attr.colorOnSurfaceVariant))
             })
             textContainer.addView(MaterialTextView(this).apply {
-                text = displayLabelForUrl(bookmark)
+                text = displayTitleForUrl(bookmark)
                 maxLines = 1
                 ellipsize = TextUtils.TruncateAt.END
                 setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyLarge)
             })
             textContainer.addView(MaterialTextView(this).apply {
-                text = bookmark
+                // Clean host instead of the raw full URL; keep the URL for accessibility.
+                text = displayLabelForUrl(bookmark)
+                contentDescription = bookmark
                 maxLines = 1
                 ellipsize = TextUtils.TruncateAt.END
                 setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodySmall)
@@ -2725,19 +2799,33 @@ class MainActivity : AppCompatActivity() {
             binding.checkLatestInstalledVersion.text = "Installed: Unknown"
         }
         Thread {
+            var conn: java.net.HttpURLConnection? = null
             try {
-                val conn = java.net.URL("https://api.github.com/repos/kododake/AABrowser/releases/latest").openConnection() as java.net.HttpURLConnection
-                conn.setRequestProperty("Accept", "application/vnd.github.v3+json")
+                conn = (java.net.URL("https://api.github.com/repos/kododake/AABrowser/releases/latest")
+                    .openConnection() as java.net.HttpURLConnection).apply {
+                    setRequestProperty("Accept", "application/vnd.github.v3+json")
+                    connectTimeout = 10_000   // never hang the worker thread on a stalled socket
+                    readTimeout = 10_000
+                }
                 if (conn.responseCode == 200) {
                     val json = org.json.JSONObject(conn.inputStream.bufferedReader().use { it.readText() })
-                    latestReleaseUrl = json.getString("html_url")
+                    val url = json.getString("html_url")
                     val tag = json.getString("tag_name")
                     runOnUiThread {
+                        if (isFinishing || isDestroyed || !::binding.isInitialized) return@runOnUiThread
+                        latestReleaseUrl = url   // write on the UI thread to avoid a data race
                         binding.checkLatestProgressIndicator.visibility = View.GONE
                         binding.checkLatestLatestVersion.text = getString(R.string.latest_version_label, tag)
                     }
                 }
-            } catch (_: Exception) { runOnUiThread { binding.checkLatestProgressIndicator.visibility = View.GONE } }
+            } catch (_: Exception) {
+                runOnUiThread {
+                    if (isFinishing || isDestroyed || !::binding.isInitialized) return@runOnUiThread
+                    binding.checkLatestProgressIndicator.visibility = View.GONE
+                }
+            } finally {
+                conn?.disconnect()
+            }
         }.start()
     }
 
