@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=1280,height=720">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Archivo+Black&display=swap" rel="stylesheet">
+<title>Driftway — A · Bento Deck</title>
+<style>
+  :root{
+    --bg:#000; --ink:#EAF0FB; --dim:#8A93A6; --line:#1A1E27;
+    --acc:#1565FF; --glow:#4D9BFF; --tile:#0B0E14; --tile2:#0E1320;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1280px;height:720px;background:var(--bg);color:var(--ink);
+    font-family:"Archivo",sans-serif;overflow:hidden}
+  body{padding:34px 40px;display:flex;flex-direction:column;gap:22px;
+    background:
+      radial-gradient(900px 380px at 88% -8%, rgba(21,101,255,.20), transparent 60%),
+      radial-gradient(700px 320px at -6% 110%, rgba(77,155,255,.10), transparent 55%), #000;}
+  .top{display:flex;align-items:center;gap:20px}
+  .brand{font-family:"Archivo Black";font-size:30px;letter-spacing:-.5px}
+  .brand b{color:var(--glow)}
+  .search{flex:1;display:flex;align-items:center;gap:14px;height:62px;border-radius:18px;
+    background:var(--tile);border:1px solid var(--line);padding:0 18px;color:var(--dim);font-size:18px}
+  .search .dot{width:9px;height:9px;border-radius:50%;background:var(--glow);box-shadow:0 0 14px var(--glow)}
+  .mic{width:62px;height:62px;border-radius:18px;display:grid;place-items:center;flex:0 0 auto;
+    background:linear-gradient(135deg,var(--acc),#0B43C0);box-shadow:0 8px 30px rgba(21,101,255,.45)}
+  .mic svg{width:26px;height:26px;fill:#fff}
+  h1{font-family:"Archivo Black";font-size:46px;line-height:.98;letter-spacing:-1.2px}
+  h1 span{color:var(--dim)}
+  .grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;gap:16px}
+  .tile{position:relative;border-radius:22px;background:var(--tile);border:1px solid var(--line);
+    padding:20px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;
+    transition:.2s}
+  .tile:hover{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc),0 18px 40px rgba(21,101,255,.18)}
+  .tile.hero{grid-row:span 2;background:linear-gradient(160deg,var(--tile2),#070a12)}
+  .ico{width:64px;height:64px;border-radius:16px;background:#fff;display:grid;place-items:center;overflow:hidden}
+  .ico.big{width:92px;height:92px;border-radius:22px}
+  .ico img{width:74%;height:74%;object-fit:contain}
+  .name{font-weight:700;font-size:22px}
+  .hero .name{font-size:34px;font-family:"Archivo Black";letter-spacing:-.5px}
+  .sub{color:var(--dim);font-size:14px;margin-top:4px}
+  .add{background:repeating-linear-gradient(135deg,#0a0d14,#0a0d14 12px,#0c1018 12px,#0c1018 24px);
+    border:1.5px dashed #2A3650;align-items:center;justify-content:center;color:var(--glow)}
+  .add .plus{font-size:42px;font-weight:700;line-height:1}
+  .add .name{color:var(--glow)}
+  .cont{display:flex;align-items:center;gap:14px}
+  .cont .lbl{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:2px;margin-right:4px}
+  .chip{display:flex;align-items:center;gap:10px;height:48px;padding:0 16px 0 8px;border-radius:14px;
+    background:#0C1018;border:1px solid var(--line);font-size:15px}
+  .chip .ci{width:32px;height:32px;border-radius:9px;background:#fff;display:grid;place-items:center;overflow:hidden}
+  .chip .ci img{width:74%;height:74%}
+  .bar{position:absolute;left:0;right:0;bottom:0;height:4px;background:linear-gradient(90deg,var(--acc),var(--glow))}
+</style></head>
+<body>
+  <div class="top">
+    <div class="brand">Drift<b>way</b></div>
+    <div class="search"><span class="dot"></span> Search or type a URL</div>
+    <div class="mic"><svg viewBox="0 -960 960 960"><path d="M480-400q-50 0-85-35t-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35Zm-40 280v-123q-104-14-172-93t-68-184h80q0 83 58.5 141.5T480-320q83 0 141.5-58.5T680-520h80q0 105-68 184t-172 93v123h-80Z"/></svg></div>
+  </div>
+  <h1>Good drive.<br><span>Where to?</span></h1>
+  <div class="grid">
+    <div class="tile hero">
+      <div class="ico big"><img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=128" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'Y',style:'font:700 44px Archivo Black;color:#FF0000'}))"></div>
+      <div><div class="name">YouTube</div><div class="sub">Pick up where you left off</div></div>
+      <div class="bar"></div>
+    </div>
+    <div class="tile"><div class="ico"><img src="https://www.google.com/s2/favicons?domain=netflix.com&sz=128"></div><div class="name">Netflix</div></div>
+    <div class="tile"><div class="ico"><img src="https://www.google.com/s2/favicons?domain=crunchyroll.com&sz=128"></div><div class="name">Crunchyroll</div></div>
+    <div class="tile"><div class="ico"><img src="https://www.google.com/s2/favicons?domain=twitch.tv&sz=128"></div><div class="name">Twitch</div></div>
+    <div class="tile"><div class="ico"><img src="https://www.google.com/s2/favicons?domain=animetsu.cc&sz=128" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'A',style:'font:700 40px Archivo Black;color:#1565FF'}))"></div><div class="name">Animetsu</div></div>
+    <div class="tile add"><div class="plus">+</div><div class="name">Add your own</div></div>
+  </div>
+  <div class="cont">
+    <span class="lbl">Continue</span>
+    <div class="chip"><span class="ci"><img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=64"></span> Lo-fi beats — 24/7</div>
+    <div class="chip"><span class="ci"><img src="https://www.google.com/s2/favicons?domain=crunchyroll.com&sz=64"></span> One Piece · Ep 1088</div>
+    <div class="chip"><span class="ci"><img src="https://www.google.com/s2/favicons?domain=twitch.tv&sz=64"></span> live: xQc</div>
+  </div>
+</body></html>

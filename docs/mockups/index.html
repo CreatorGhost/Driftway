@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+<title>Driftway — Home page concepts</title>
+<style>
+  :root{--acc:#1565FF;--glow:#4D9BFF}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#04060c;color:#eaf0fb;font-family:Manrope,system-ui,sans-serif;padding:40px;max-width:1180px;margin:0 auto}
+  h1{font-size:38px;font-weight:800;letter-spacing:-1px;margin-bottom:6px}
+  h1 b{color:var(--glow)}
+  p.sub{color:#8a93a6;margin-bottom:34px}
+  .card{background:#0b0e14;border:1px solid #1a1e27;border-radius:20px;overflow:hidden;margin-bottom:30px;transition:.2s}
+  .card:hover{border-color:var(--acc);box-shadow:0 14px 40px rgba(21,101,255,.18)}
+  .card a.shot{display:block}
+  .card img{width:100%;display:block;border-bottom:1px solid #1a1e27}
+  .meta{padding:18px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .tag{font-weight:800;font-size:20px}
+  .tag em{font-style:normal;color:var(--glow)}
+  .desc{color:#9aa6bc;font-size:15px;flex:1;min-width:240px}
+  .open{background:var(--acc);color:#fff;text-decoration:none;font-weight:700;padding:11px 20px;border-radius:12px;font-size:14px}
+  .rec{display:inline-block;background:rgba(21,101,255,.18);color:var(--glow);border:1px solid var(--acc);
+       font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;margin-left:8px}
+</style></head>
+<body>
+  <h1>Drift<b>way</b> — pick a home page</h1>
+  <p class="sub">Tap a preview to open the full interactive mock (real site logos load live). Then tell me A, B, or C.</p>
+
+  <div class="card">
+    <a class="shot" href="A_bento_deck.html" target="_blank"><img src="driftway_A.png" alt="Concept A"></a>
+    <div class="meta">
+      <span class="tag">A · Bento Deck <span class="rec">recommended</span></span>
+      <span class="desc">Big editorial grid with a large YouTube hero tile + progress; clearest hierarchy, biggest targets, lightest to render.</span>
+      <a class="open" href="A_bento_deck.html" target="_blank">Open A →</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <a class="shot" href="B_cinematic_shelf.html" target="_blank"><img src="driftway_B.png" alt="Concept B"></a>
+    <div class="meta">
+      <span class="tag">B · Cinematic Shelf</span>
+      <span class="desc">Cinematic hero band with search front-and-centre, then Netflix-style shelves of media + "continue watching".</span>
+      <a class="open" href="B_cinematic_shelf.html" target="_blank">Open B →</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <a class="shot" href="C_glass_cockpit.html" target="_blank"><img src="driftway_C.png" alt="Concept C"></a>
+    <div class="meta">
+      <span class="tag">C · Glass Cockpit</span>
+      <span class="desc">Frosted-glass cards on an electric-blue mesh gradient; most "wow", richest depth — heaviest to render, ages fastest.</span>
+      <a class="open" href="C_glass_cockpit.html" target="_blank">Open C →</a>
+    </div>
+  </div>
+</body></html>

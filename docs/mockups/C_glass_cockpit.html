@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=1280,height=720">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+<title>Driftway — C · Glass Cockpit</title>
+<style>
+  :root{--ink:#EEF3FB;--dim:#93A0B8;--acc:#1565FF;--glow:#4D9BFF}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1280px;height:720px;color:var(--ink);font-family:"Manrope",sans-serif;overflow:hidden}
+  body{position:relative;
+    background:
+      radial-gradient(680px 680px at 18% 14%, rgba(21,101,255,.40), transparent 55%),
+      radial-gradient(760px 620px at 92% 96%, rgba(77,155,255,.30), transparent 55%),
+      radial-gradient(520px 520px at 70% 8%, rgba(10,40,120,.55), transparent 60%),
+      #02040A;
+    padding:40px 48px;display:flex;flex-direction:column;gap:26px}
+  /* faint grid + grain for depth */
+  body::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 1px,transparent 1px 46px),
+               repeating-linear-gradient(90deg,rgba(255,255,255,.03) 0 1px,transparent 1px 46px);
+    mask:radial-gradient(circle at 50% 40%,#000,transparent 80%)}
+  .top{display:flex;align-items:center;gap:18px;z-index:1}
+  .brand{font-weight:800;font-size:26px;letter-spacing:-.6px}.brand b{color:var(--glow)}
+  .glass{background:linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,.03));
+    border:1px solid rgba(160,190,255,.22);backdrop-filter:blur(18px) saturate(140%);
+    box-shadow:0 20px 50px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.18)}
+  .search{flex:1;display:flex;align-items:center;gap:14px;height:64px;border-radius:20px;padding:0 20px;
+    color:#aebede;font-size:18px}
+  .mic{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--glow),var(--acc));box-shadow:0 12px 36px rgba(21,101,255,.55)}
+  .mic svg{width:28px;height:28px;fill:#fff}
+  h1{font-size:50px;font-weight:800;letter-spacing:-1.5px;line-height:1;z-index:1}
+  h1 span{color:var(--dim);font-weight:700}
+  .grid{z-index:1;display:grid;grid-template-columns:repeat(6,1fr);gap:18px}
+  .card{border-radius:24px;padding:22px;min-height:150px;display:flex;flex-direction:column;
+    justify-content:space-between;transition:.22s;cursor:pointer}
+  .card:hover{transform:translateY(-5px);border-color:rgba(77,155,255,.6);
+    box-shadow:0 26px 60px rgba(21,101,255,.35),inset 0 1px 0 rgba(255,255,255,.25)}
+  .ico{width:64px;height:64px;border-radius:18px;background:#fff;display:grid;place-items:center;overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,.4)}
+  .ico img{width:74%;height:74%;object-fit:contain}
+  .nm{font-weight:800;font-size:20px}
+  .add{align-items:center;justify-content:center;gap:10px;
+    background:linear-gradient(160deg,rgba(21,101,255,.18),rgba(21,101,255,.05));
+    border:1.5px dashed rgba(120,160,255,.5);color:var(--glow)}
+  .add .p{font-size:40px;font-weight:800;line-height:.8}
+  .cont{z-index:1;display:flex;align-items:center;gap:14px}
+  .cl{color:var(--dim);font-size:12px;letter-spacing:3px;text-transform:uppercase;margin-right:2px}
+  .pill{display:flex;align-items:center;gap:11px;height:54px;border-radius:16px;padding:0 18px 0 9px;font-size:15px}
+  .pill .ci{width:36px;height:36px;border-radius:11px;background:#fff;display:grid;place-items:center;overflow:hidden}
+  .pill .ci img{width:74%;height:74%}
+</style></head>
+<body>
+  <div class="top">
+    <div class="brand">Drift<b>way</b></div>
+    <div class="search glass">🔍&nbsp; Search or type a URL</div>
+    <div class="mic"><svg viewBox="0 -960 960 960"><path d="M480-400q-50 0-85-35t-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35Zm-40 280v-123q-104-14-172-93t-68-184h80q0 83 58.5 141.5T480-320q83 0 141.5-58.5T680-520h80q0 105-68 184t-172 93v123h-80Z"/></svg></div>
+  </div>
+  <h1>Good drive. <span>What are we watching?</span></h1>
+  <div class="grid">
+    <div class="card glass"><div class="ico"><img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=128"></div><div class="nm">YouTube</div></div>
+    <div class="card glass"><div class="ico"><img src="https://www.google.com/s2/favicons?domain=netflix.com&sz=128"></div><div class="nm">Netflix</div></div>
+    <div class="card glass"><div class="ico"><img src="https://www.google.com/s2/favicons?domain=crunchyroll.com&sz=128"></div><div class="nm">Crunchyroll</div></div>
+    <div class="card glass"><div class="ico"><img src="https://www.google.com/s2/favicons?domain=animetsu.cc&sz=128" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'A',style:'font:800 34px Manrope;color:#1565FF'}))"></div><div class="nm">Animetsu</div></div>
+    <div class="card glass"><div class="ico"><img src="https://www.google.com/s2/favicons?domain=twitch.tv&sz=128"></div><div class="nm">Twitch</div></div>
+    <div class="card add"><div class="p">+</div><div class="nm">Add your own</div></div>
+  </div>
+  <div class="cont">
+    <span class="cl">Continue</span>
+    <div class="pill glass"><span class="ci"><img src="https://www.google.com/s2/favicons?domain=crunchyroll.com&sz=64"></span> One Piece · Ep 1088</div>
+    <div class="pill glass"><span class="ci"><img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=64"></span> Lo-fi beats — live</div>
+    <div class="pill glass"><span class="ci"><img src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64"></span> Arcane · S2E3</div>
+  </div>
+</body></html>

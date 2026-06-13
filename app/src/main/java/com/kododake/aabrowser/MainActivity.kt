@@ -1328,6 +1328,10 @@ class MainActivity : AppCompatActivity() {
             hideMenuOverlay()
         }
         binding.buttonSettings.setOnClickListener { showSettingsView() }
+        // Cinematic hero search pill → open the address entry. (Mic = voice search is a tracked
+        // follow-up; for now it also opens the address field so the affordance works.)
+        binding.startPageSearchPill.setOnClickListener { showMenuOverlay(focusAddressBar = true) }
+        binding.startPageMic.setOnClickListener { showMenuOverlay(focusAddressBar = true) }
         binding.buttonStartPageResume.setOnClickListener {
             val resumeUrl = BrowserPreferences.getLastVisitedUrl(this)
             if (resumeUrl.isNullOrBlank()) {
@@ -2613,37 +2617,30 @@ class MainActivity : AppCompatActivity() {
     private fun refreshStartPageQuickLinks() {
         val container = binding.startPageQuickLinksContainer
         val density = resources.displayMetrics.density
+        fun dp(v: Float) = (v * density).toInt()
         container.removeAllViews()
 
+        // "Cinematic shelf" (design B): a single horizontally-scrolling row of large media tiles.
+        val shelf = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         val slots = BrowserPreferences.getStartPageSlots(this)
-        val rows = (BrowserPreferences.MAX_START_PAGE_SITES + 1) / 2
-        repeat(rows) { rowIndex ->
-            val row = LinearLayout(this).apply {
-                orientation = LinearLayout.HORIZONTAL
-                layoutParams = LinearLayout.LayoutParams(-1, -2).apply {
-                    if (rowIndex > 0) topMargin = (12 * density).toInt()
-                }
-            }
-
-            repeat(2) { columnIndex ->
-                val slotIndex = rowIndex * 2 + columnIndex
-                if (slotIndex >= BrowserPreferences.MAX_START_PAGE_SITES) return@repeat
-                val slotUrl = slots.getOrNull(slotIndex)
-                row.addView(
-                    createStartPageSlotCard(slotIndex, slotUrl).apply {
-                        layoutParams = LinearLayout.LayoutParams(0, -2, 1f).apply {
-                            if (columnIndex == 0) {
-                                marginEnd = (6 * density).toInt()
-                            } else {
-                                marginStart = (6 * density).toInt()
-                            }
-                        }
+        for (slotIndex in 0 until BrowserPreferences.MAX_START_PAGE_SITES) {
+            val slotUrl = slots.getOrNull(slotIndex)
+            shelf.addView(
+                createStartPageSlotCard(slotIndex, slotUrl).apply {
+                    layoutParams = LinearLayout.LayoutParams(dp(152f), dp(134f)).apply {
+                        marginEnd = dp(14f)
                     }
-                )
-            }
-
-            container.addView(row)
+                }
+            )
         }
+        container.addView(
+            android.widget.HorizontalScrollView(this).apply {
+                layoutParams = LinearLayout.LayoutParams(-1, -2)
+                isHorizontalScrollBarEnabled = false
+                clipToPadding = false
+                addView(shelf)
+            }
+        )
     }
 
     private fun createStartPageSlotCard(slotIndex: Int, url: String?): View {
@@ -2653,8 +2650,9 @@ class MainActivity : AppCompatActivity() {
         return com.google.android.material.card.MaterialCardView(this).apply {
             radius = 20 * density
             strokeWidth = dp(1f)
-            strokeColor = resolveThemeColor(com.google.android.material.R.attr.colorOutlineVariant)
-            setCardBackgroundColor(resolveThemeColor(com.google.android.material.R.attr.colorSurfaceContainerLowest))
+            // Fixed dark tile (the home is always AMOLED-cinematic, like the approved mock).
+            strokeColor = android.graphics.Color.parseColor("#2A3142")
+            setCardBackgroundColor(android.graphics.Color.parseColor("#0C1017"))
             isClickable = true
             isFocusable = true
             setOnClickListener {
@@ -2682,13 +2680,12 @@ class MainActivity : AppCompatActivity() {
                         sizeDp = 56f,
                         cornerRadiusDp = 16f,
                         paddingDp = 10f,
-                        backgroundColor = resolveThemeColor(
-                            if (isEmpty) {
-                                com.google.android.material.R.attr.colorSecondaryContainer
-                            } else {
-                                com.google.android.material.R.attr.colorPrimaryContainer
-                            }
-                        ),
+                        // White chip for real favicons (clean logos); electric-blue tint for the "+" slot.
+                        backgroundColor = if (isEmpty) {
+                            android.graphics.Color.parseColor("#16315E")
+                        } else {
+                            android.graphics.Color.WHITE
+                        },
                         showAddOnEmptyUrl = true
                     )
                 )
@@ -2708,10 +2705,7 @@ class MainActivity : AppCompatActivity() {
                     ellipsize = TextUtils.TruncateAt.END
                     setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_TitleMedium)
                     setTextColor(
-                        resolveThemeColor(
-                            if (isEmpty) com.google.android.material.R.attr.colorOnSurfaceVariant
-                            else com.google.android.material.R.attr.colorOnSurface
-                        )
+                        android.graphics.Color.parseColor(if (isEmpty) "#9AA6BC" else "#F2F5FB")
                     )
                 })
             })

@@ -1,0 +1,40 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]: Driftway
+    - generic [ref=e4]: Search or type a URL
+    - img [ref=e7]
+  - heading "Good drive. Where to?" [level=1] [ref=e9]:
+    - text: Good drive.
+    - text: Where to?
+  - generic [ref=e10]:
+    - generic [ref=e11]:
+      - img [ref=e13]
+      - generic [ref=e14]:
+        - generic [ref=e15]: YouTube
+        - generic [ref=e16]: Pick up where you left off
+    - generic [ref=e18]:
+      - img [ref=e20]
+      - generic [ref=e21]: Netflix
+    - generic [ref=e22]:
+      - img [ref=e24]
+      - generic [ref=e25]: Crunchyroll
+    - generic [ref=e26]:
+      - img [ref=e28]
+      - generic [ref=e29]: Twitch
+    - generic [ref=e30]:
+      - img [ref=e32]
+      - generic [ref=e33]: Animetsu
+    - generic [ref=e34]:
+      - generic [ref=e35]: +
+      - generic [ref=e36]: Add your own
+  - generic [ref=e37]:
+    - generic [ref=e38]: Continue
+    - generic [ref=e39]:
+      - img [ref=e41]
+      - text: Lo-fi beats — 24/7
+    - generic [ref=e42]:
+      - img [ref=e44]
+      - text: One Piece · Ep 1088
+    - generic [ref=e45]:
+      - img [ref=e47]
+      - text: "live: xQc"

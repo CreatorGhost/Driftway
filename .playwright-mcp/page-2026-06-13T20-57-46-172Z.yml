@@ -1,0 +1,49 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]: Driftway
+    - generic [ref=e4]: Your media, parked & ready
+    - heading "Let's roll." [level=1] [ref=e5]:
+      - text: Let's
+      - emphasis [ref=e6]: roll.
+    - generic [ref=e7]:
+      - generic [ref=e8]: 🔍 Search or type a URL
+      - img [ref=e10]
+  - generic [ref=e12]:
+    - heading "Jump back in" [level=2] [ref=e14]
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - img [ref=e18]
+        - generic [ref=e19]: YouTube
+      - generic [ref=e20]:
+        - img [ref=e22]
+        - generic [ref=e23]: Netflix
+      - generic [ref=e24]:
+        - img [ref=e26]
+        - generic [ref=e27]: Crunchyroll
+      - generic [ref=e28]:
+        - img [ref=e30]
+        - generic [ref=e31]: Animetsu
+      - generic [ref=e32]:
+        - img [ref=e34]
+        - generic [ref=e35]: Twitch
+      - generic [ref=e36]:
+        - generic [ref=e37]: +
+        - generic [ref=e38]: Add your own
+    - generic [ref=e39]:
+      - heading "Continue watching" [level=2] [ref=e41]
+      - generic [ref=e42]:
+        - generic [ref=e43]:
+          - img [ref=e45]
+          - generic [ref=e46]:
+            - generic [ref=e47]: One Piece
+            - text: Ep 1088 · 12:30 left
+        - generic [ref=e48]:
+          - img [ref=e50]
+          - generic [ref=e51]:
+            - generic [ref=e52]: Lo-fi beats
+            - text: Listening · live
+        - generic [ref=e53]:
+          - img [ref=e55]
+          - generic [ref=e56]:
+            - generic [ref=e57]: Arcane
+            - text: S2 · E3

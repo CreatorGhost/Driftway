@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=1280,height=720">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>Driftway — B · Cinematic Shelf</title>
+<style>
+  :root{--bg:#000;--ink:#F2F5FB;--dim:#8993A6;--acc:#1565FF;--glow:#4D9BFF;--card:#0C1017;--line:#1B2030}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1280px;height:720px;background:var(--bg);color:var(--ink);font-family:"Sora",sans-serif;overflow:hidden}
+  /* cinematic hero band */
+  .hero{height:300px;position:relative;padding:40px 48px;display:flex;flex-direction:column;justify-content:center;
+    background:
+      radial-gradient(1100px 460px at 78% 30%, rgba(21,101,255,.55), transparent 60%),
+      linear-gradient(180deg,#06122E 0%, #030712 70%, #000 100%);
+    overflow:hidden}
+  .hero::after{content:"";position:absolute;inset:0;background:
+     repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 1px,transparent 1px 40px);pointer-events:none}
+  .kicker{font-size:13px;letter-spacing:5px;text-transform:uppercase;color:var(--glow);font-weight:600}
+  h1{font-size:64px;font-weight:800;line-height:.96;letter-spacing:-2px;margin:10px 0 22px;max-width:760px}
+  h1 em{font-style:normal;color:var(--glow);text-shadow:0 0 40px rgba(77,155,255,.6)}
+  .barwrap{display:flex;gap:16px;max-width:820px}
+  .search{flex:1;display:flex;align-items:center;gap:14px;height:64px;border-radius:16px;
+    background:rgba(8,12,22,.72);backdrop-filter:blur(8px);border:1px solid rgba(120,150,210,.25);
+    padding:0 20px;color:#9fb0cf;font-size:18px}
+  .mic{width:64px;height:64px;border-radius:16px;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--acc),#0A3FB8);box-shadow:0 10px 34px rgba(21,101,255,.5)}
+  .mic svg{width:28px;height:28px;fill:#fff}
+  .brand{position:absolute;top:34px;right:48px;font-weight:800;font-size:22px;letter-spacing:-.5px}
+  .brand b{color:var(--glow)}
+  /* shelves */
+  .body{padding:26px 48px}
+  .row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .row h2{font-size:15px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);font-weight:600}
+  .shelf{display:flex;gap:18px}
+  .tile{width:196px;height:120px;border-radius:18px;background:var(--card);border:1px solid var(--line);
+    padding:18px;display:flex;flex-direction:column;justify-content:space-between;transition:.2s;flex:0 0 auto}
+  .tile:hover{transform:translateY(-4px);border-color:var(--acc);box-shadow:0 16px 40px rgba(21,101,255,.25)}
+  .ico{width:52px;height:52px;border-radius:14px;background:#fff;display:grid;place-items:center;overflow:hidden}
+  .ico img{width:74%;height:74%;object-fit:contain}
+  .tn{font-weight:700;font-size:18px}
+  .add{align-items:center;justify-content:center;gap:8px;border:1.5px dashed #2C3A57;background:#080b12;color:var(--glow)}
+  .add .p{font-size:38px;line-height:.8}
+  .add .tn{color:var(--glow);font-size:15px}
+  .cont{margin-top:22px}
+  .cchip{width:auto;flex-direction:row;align-items:center;gap:12px;height:60px;padding:0 18px 0 10px}
+  .cchip .ci{width:40px;height:40px;border-radius:11px}
+  .cmeta b{display:block;font-size:15px}.cmeta span{font-size:12px;color:var(--dim)}
+</style></head>
+<body>
+  <div class="hero">
+    <div class="brand">Drift<b>way</b></div>
+    <div class="kicker">Your media, parked & ready</div>
+    <h1>Let's <em>roll.</em></h1>
+    <div class="barwrap">
+      <div class="search">🔍&nbsp; Search or type a URL</div>
+      <div class="mic"><svg viewBox="0 -960 960 960"><path d="M480-400q-50 0-85-35t-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35Zm-40 280v-123q-104-14-172-93t-68-184h80q0 83 58.5 141.5T480-320q83 0 141.5-58.5T680-520h80q0 105-68 184t-172 93v123h-80Z"/></svg></div>
+    </div>
+  </div>
+  <div class="body">
+    <div class="row"><h2>Jump back in</h2></div>
+    <div class="shelf">
+      <div class="tile"><div class="ico"><img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=128"></div><div class="tn">YouTube</div></div>
+      <div class="tile"><div class="ico"><img src="https://www.google.com/s2/favicons?domain=netflix.com&sz=128"></div><div class="tn">Netflix</div></div>
+      <div class="tile"><div class="ico"><img src="https://www.google.com/s2/favicons?domain=crunchyroll.com&sz=128"></div><div class="tn">Crunchyroll</div></div>
+      <div class="tile"><div class="ico"><img src="https://www.google.com/s2/favicons?domain=animetsu.cc&sz=128" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'A',style:'font:800 30px Sora;color:#1565FF'}))"></div><div class="tn">Animetsu</div></div>
+      <div class="tile"><div class="ico"><img src="https://www.google.com/s2/favicons?domain=twitch.tv&sz=128"></div><div class="tn">Twitch</div></div>
+      <div class="tile add"><div class="p">+</div><div class="tn">Add your own</div></div>
+    </div>
+    <div class="cont">
+      <div class="row"><h2>Continue watching</h2></div>
+      <div class="shelf">
+        <div class="tile cchip"><span class="ci ico"><img src="https://www.google.com/s2/favicons?domain=crunchyroll.com&sz=64"></span><div class="cmeta"><b>One Piece</b><span>Ep 1088 · 12:30 left</span></div></div>
+        <div class="tile cchip"><span class="ci ico"><img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=64"></span><div class="cmeta"><b>Lo-fi beats</b><span>Listening · live</span></div></div>
+        <div class="tile cchip"><span class="ci ico"><img src="https://www.google.com/s2/favicons?domain=netflix.com&sz=64"></span><div class="cmeta"><b>Arcane</b><span>S2 · E3</span></div></div>
+      </div>
+    </div>
+  </div>
+</body></html>
