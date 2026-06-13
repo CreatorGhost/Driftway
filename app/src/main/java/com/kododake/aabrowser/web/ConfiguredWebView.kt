@@ -45,7 +45,9 @@ data class BrowserCallbacks(
     val onExitFullscreen: () -> Unit = {},
     val onPermissionRequest: (PermissionRequest) -> Unit = { it.deny() },
     val onCreateWindowRequest: (Message) -> Boolean = { false },
-    val onCloseWindowRequest: (WebView) -> Unit = {}
+    val onCloseWindowRequest: (WebView) -> Unit = {},
+    /** The WebView's renderer process died (crash or OOM-kill). Host must recover the tab. */
+    val onRendererGone: (WebView, didCrash: Boolean) -> Unit = { _, _ -> }
 )
 
 fun configureWebView(
@@ -124,6 +126,18 @@ fun configureWebView(
                 } else {
                     null
                 }
+            }
+
+            override fun onRenderProcessGone(
+                view: WebView,
+                detail: android.webkit.RenderProcessGoneDetail?
+            ): Boolean {
+                // Returning true tells the framework NOT to kill the whole app process when a
+                // renderer dies (crash or low-memory kill). We then hand off to the host to
+                // tear down and rebuild the affected tab — a dead WebView can't be reused.
+                val didCrash = detail?.didCrash() ?: false
+                callbacks.onRendererGone(view, didCrash)
+                return true
             }
 
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {

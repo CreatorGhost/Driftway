@@ -376,7 +376,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:contentDescription="@string/menu_open_description"
-                app:icon="@android:drawable/ic_menu_more"
+                app:icon="@drawable/more_vert_24px"
                 app:iconSize="20dp"
                 app:iconTint="?attr/colorOnSurfaceVariant" />
         </LinearLayout>
@@ -1115,7 +1115,7 @@
                                 app:cornerRadius="@dimen/card_corner_radius"
                                 app:strokeWidth="1.5dp"
                                 app:strokeColor="?attr/colorPrimary"
-                                app:icon="@android:drawable/ic_menu_add"
+                                app:icon="@drawable/add_24px"
                                 app:iconGravity="textStart"
                                 app:iconSize="24dp"
                                 app:iconPadding="12dp" />
@@ -1449,7 +1449,7 @@
         android:layout_gravity="bottom|start"
         android:layout_margin="16dp"
         android:contentDescription="@string/menu_open_description"
-        app:srcCompat="@android:drawable/ic_menu_more"
+        app:srcCompat="@drawable/more_vert_24px"
         app:tint="?attr/colorOnPrimary"
         app:backgroundTint="?attr/colorPrimary"
         app:elevation="6dp" />
