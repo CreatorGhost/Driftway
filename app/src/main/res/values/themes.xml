@@ -34,6 +34,13 @@
         <item name="android:windowBackground">@color/theme_background</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@color/theme_background</item>
+        <!-- Driftway shape identity: a soft squircle scale applied to all Material components -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Driftway.Small</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Driftway.Medium</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Driftway.Large</item>
+        <!-- Bold, glanceable type roles for headlines/titles (car legibility) -->
+        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.Driftway.HeadlineMedium</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.Driftway.TitleLarge</item>
     </style>
 
     <!-- Bottom Sheet Shape -->
@@ -43,6 +50,31 @@
         <item name="cornerSizeTopRight">28dp</item>
         <item name="cornerSizeBottomLeft">0dp</item>
         <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+    <!-- ===== Driftway shape scale (soft squircle, generous corners) ===== -->
+    <style name="ShapeAppearance.Driftway.Small" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">14dp</item>
+    </style>
+    <style name="ShapeAppearance.Driftway.Medium" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">22dp</item>
+    </style>
+    <style name="ShapeAppearance.Driftway.Large" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">30dp</item>
+    </style>
+
+    <!-- ===== Driftway type scale (bold/emphasized for glanceable headlines) ===== -->
+    <style name="TextAppearance.Driftway.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textFontWeight">800</item>
+        <item name="android:letterSpacing">-0.01</item>
+    </style>
+    <style name="TextAppearance.Driftway.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textFontWeight">700</item>
     </style>
 
 </resources>
