@@ -21,9 +21,13 @@ import android.webkit.WebViewClient
 import androidx.core.net.toUri
 import androidx.webkit.UserAgentMetadata
 import androidx.webkit.WebSettingsCompat
+import androidx.webkit.WebViewCompat
 import androidx.webkit.WebViewFeature
 import com.kododake.aabrowser.R
+import com.kododake.aabrowser.adblock.AdBlockManager
+import com.kododake.aabrowser.adblock.SponsorBlock
 import com.kododake.aabrowser.model.UserAgentProfile
+import java.util.concurrent.atomic.AtomicBoolean
 
 data class BrowserCallbacks(
     val onUrlChange: (String) -> Unit = {},
@@ -96,9 +100,53 @@ fun configureWebView(
             it.setAcceptThirdPartyCookies(this, true)
         }
 
+        // Cosmetic ad-hiding + SponsorBlock run at document-start (before page scripts) when the
+        // WebView supports it — collapses ad gaps and skips YouTube sponsor segments. Network-level
+        // ad blocking is handled live in shouldInterceptRequest below.
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)) {
+            if (AdBlockManager.enabled) {
+                runCatching {
+                    WebViewCompat.addDocumentStartJavaScript(this, AdBlockManager.cosmeticCssJs(), setOf("*"))
+                }
+                runCatching {
+                    WebViewCompat.addDocumentStartJavaScript(
+                        this,
+                        AdBlockManager.FACEBOOK_COSMETIC_JS,
+                        setOf("https://www.facebook.com", "https://m.facebook.com", "https://facebook.com")
+                    )
+                }
+            }
+            runCatching {
+                WebViewCompat.addDocumentStartJavaScript(
+                    this,
+                    SponsorBlock.JS,
+                    setOf("https://www.youtube.com", "https://m.youtube.com", "https://youtube.com")
+                )
+            }
+        }
+
+        // Set on the UI thread (onPageStarted) when the current page's host is on the ad-block
+        // allowlist; read on the intercept thread to skip blocking for that page. AtomicBoolean
+        // because shouldInterceptRequest runs off the UI thread.
+        val adBlockDisabledForPage = AtomicBoolean(false)
+
         //setLayerType(View.LAYER_TYPE_HARDWARE, null)
 
         webViewClient = object : WebViewClient() {
+            override fun shouldInterceptRequest(
+                view: WebView,
+                request: WebResourceRequest
+            ): WebResourceResponse? {
+                // Block ad/tracker SUBRESOURCES only — never the main-frame navigation. Runs off
+                // the UI thread; AdBlockManager lookups are O(1) and thread-safe.
+                if (request.isForMainFrame || adBlockDisabledForPage.get()) return null
+                return if (AdBlockManager.shouldBlock(request.url?.host)) {
+                    AdBlockManager.blockedResponse()
+                } else {
+                    null
+                }
+            }
+
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
                 val uri = request.url
                 if (handleCleartextIfNeeded(view, uri, callbacks, onPageStart = false)) return true
@@ -119,6 +167,10 @@ fun configureWebView(
                 val stringUrl = url ?: return
                 val uri = Uri.parse(stringUrl)
                 val scheme = uri.scheme?.lowercase()
+
+                // Refresh the per-page ad-block allowlist flag on the UI thread for the
+                // intercept thread to read.
+                adBlockDisabledForPage.set(AdBlockManager.isHostAllowlisted(view.context, uri.host))
 
                 if (scheme == "http") {
                     val allowedOnce = getTag(R.id.webview_allow_once_uri_tag) as? String

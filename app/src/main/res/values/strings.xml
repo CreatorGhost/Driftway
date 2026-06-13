@@ -74,6 +74,10 @@
     <string name="settings_use_system_colors_description">Match the head unit\'s Material You wallpaper colors instead of the built-in AA Browser theme. Off keeps the curated brand and AMOLED look.</string>
     <string name="settings_analytics">Send anonymous usage stats</string>
     <string name="settings_analytics_description">Off by default. When on, sends an anonymous app-open count to help improve AA Browser. No browsing data is collected.</string>
+    <string name="settings_adblock_title">Ad blocking</string>
+    <string name="settings_adblock_description">Blocks ad and tracker requests across the web and hides leftover ad slots. Skips YouTube creator sponsor segments via SponsorBlock. Note: YouTube\'s own video ads cannot be reliably blocked.</string>
+    <string name="settings_adblock_toggle">Block ads &amp; trackers</string>
+    <string name="settings_adblock_toggle_description">Recommended. Turn off if a site misbehaves.</string>
     <string name="media_play">Play</string>
     <string name="media_pause">Pause</string>
     <string name="media_stop">Stop</string>

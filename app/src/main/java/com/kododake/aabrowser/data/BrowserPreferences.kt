@@ -42,6 +42,9 @@ object BrowserPreferences {
     private const val KEY_HOME_PAGE_URL = "home_page_url"
     private const val KEY_USE_SYSTEM_COLORS = "use_system_colors"
     private const val KEY_ANALYTICS_ENABLED = "analytics_enabled"
+    private const val KEY_ADBLOCK_ENABLED = "adblock_enabled"
+    private const val KEY_ADBLOCK_DISABLED_HOSTS = "adblock_disabled_hosts"
+    private const val KEY_ADBLOCK_LIST_UPDATED = "adblock_list_updated_at"
     private const val DEFAULT_URL = "https://www.google.com"
     private const val SEARCH_TEMPLATE = "https://www.google.com/search?q=%s"
 
@@ -178,6 +181,38 @@ object BrowserPreferences {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             .edit()
             .putBoolean(KEY_ANALYTICS_ENABLED, enabled)
+            .apply()
+    }
+
+    /** Ad/tracker blocking. Default true. */
+    fun isAdBlockEnabled(context: Context): Boolean {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .getBoolean(KEY_ADBLOCK_ENABLED, true)
+    }
+
+    fun setAdBlockEnabled(context: Context, enabled: Boolean) {
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .edit()
+            .putBoolean(KEY_ADBLOCK_ENABLED, enabled)
+            .apply()
+    }
+
+    /** Per-host allowlist so users can turn blocking OFF for a site that breaks. */
+    fun isHostAdBlockDisabled(context: Context, host: String?): Boolean =
+        isHostAllowed(context, KEY_ADBLOCK_DISABLED_HOSTS, host)
+
+    fun addHostAdBlockDisabled(context: Context, host: String) =
+        addAllowedHost(context, KEY_ADBLOCK_DISABLED_HOSTS, host)
+
+    fun getAdBlockListUpdatedAt(context: Context): Long {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .getLong(KEY_ADBLOCK_LIST_UPDATED, 0L)
+    }
+
+    fun setAdBlockListUpdatedAt(context: Context, timestamp: Long) {
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .edit()
+            .putLong(KEY_ADBLOCK_LIST_UPDATED, timestamp)
             .apply()
     }
 

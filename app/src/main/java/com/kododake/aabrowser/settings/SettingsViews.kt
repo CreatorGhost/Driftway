@@ -1109,6 +1109,30 @@ object SettingsViews {
         donorsCard.addView(donorsInner)
         container.addView(donorsCard)
 
+        val adBlockCard = createStyledCard()
+        val adBlockInner = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(16), dp(16), dp(16), dp(16))
+        }
+        adBlockInner.addView(createSectionTitle(context.getString(R.string.settings_adblock_title), R.drawable.security_24px, bottomPaddingDp = 4))
+        adBlockInner.addView(TextView(context).apply {
+            text = context.getString(R.string.settings_adblock_description)
+            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyMedium)
+            setTextColor(onSurfaceColor)
+            setPadding(0, dp(4), 0, 0)
+        })
+        adBlockInner.addView(
+            buildSwitchRow(
+                title = context.getString(R.string.settings_adblock_toggle),
+                description = context.getString(R.string.settings_adblock_toggle_description),
+                initialChecked = BrowserPreferences.isAdBlockEnabled(context)
+            ) { isChecked ->
+                com.kododake.aabrowser.adblock.AdBlockManager.setEnabled(context, isChecked)
+            }
+        )
+        adBlockCard.addView(adBlockInner)
+        container.addView(adBlockCard)
+
         val siteDataCard = createStyledCard()
         val siteDataInner = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL

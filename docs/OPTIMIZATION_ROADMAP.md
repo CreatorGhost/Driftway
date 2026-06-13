@@ -120,16 +120,17 @@
 
 | ID | St | Item | Eff | Notes |
 |----|----|------|-----|-------|
-| AD1 | [ ] | Settings toggle + per-site allowlist + global off (mirror cleartext-host pattern) | small | safety valve for breakage |
-| AD2 | [ ] | Baseline hosts blocker via `shouldInterceptRequest` (StevenBlack ~85k domains in assets → HashSet) | small | thread-safe, allocation-free per subresource |
-| AD3 | [ ] | ABP engine for EasyList/EasyPrivacy/AdGuard (vendor Edsuns/AdblockAndroid OR Brave adblock-rust via JNI) | large | adblock-rust = production/low-mem; Edsuns = fast but unmaintained → must fork |
-| AD4 | [ ] | Cosmetic element-hiding CSS at `onPageStarted`/document-start (collapse blank gaps) | medium | |
-| AD5 | [ ] | `WebViewCompat.addDocumentStartJavaScript` scriptlet runtime (gated on DOCUMENT_START_SCRIPT) | medium | runs before page scripts; needed for YT/FB |
-| AD6 | [ ] | Facebook procedural cosmetic (MutationObserver reconstructs split "Sponsored") | medium | heuristic, fragile |
-| AD7 | [!] | YouTube best-effort scriptlet (scrub InnerTube adPlacements; feature-flagged, isolated) | large | **fragile, intermittent, can't promise ad-free**; SSAI defeats it |
-| AD8 | [ ] | SponsorBlock (skip creator sponsor segments) — separate, stable, labeled distinctly | small | not the same as ad removal |
-| AD9 | [ ] | Background list updates (WorkManager/OkHttp) + pre-compiled blob in assets | medium | |
-| AD10 | [ ] | Head-unit perf + correctness validation (latency, RAM, Widevine/OAuth/downloads still work) | medium | |
+> **STABLE TIER chosen + implemented** on `feat/adblock-stable` (pure-Kotlin/JS, no NDK).
+| AD1 | [x] | Settings toggle + per-host allowlist + global off | small | `BrowserPreferences` adblock prefs; "Ad blocking" settings card |
+| AD2 | [x] | Hosts blocker via `shouldInterceptRequest` (curated asset → HashSet, parent-domain match) | small | `AdBlockManager.shouldBlock`; main-frame-safe; off-UI-thread safe |
+| AD3 | [-] | Full ABP/adblock-rust engine | large | **DEFERRED** (needs NDK/Rust) — hosts list covers the bulk; future upgrade |
+| AD4 | [x] | Cosmetic element-hiding CSS (generic, conservative) | medium | `GENERIC_COSMETIC_CSS` via document-start |
+| AD5 | [x] | `WebViewCompat.addDocumentStartJavaScript` runtime (gated on DOCUMENT_START_SCRIPT) | medium | cosmetic + FB + SponsorBlock injected before page scripts |
+| AD6 | [x] | Facebook procedural cosmetic (MutationObserver "Sponsored" hider) | medium | best-effort, cosmetic-only (can't break playback) |
+| AD7 | [-] | YouTube best-effort scriptlet | large | **DROPPED per user** (fragile, can't promise ad-free) |
+| AD8 | [x] | SponsorBlock (skip creator sponsor segments) | small | `SponsorBlock.JS`, YouTube origins, SPA-aware |
+| AD9 | [x] | Background list update (OkHttp, throttled ~3 days → StevenBlack, cached in filesDir) | medium | extends curated list to full coverage |
+| AD10 | [~] | Head-unit perf + correctness validation | medium | build-verifying; then quality gate |
 
 ## Sprint 3 — Login UX  *(verdict: cross-browser import NOT possible; "log in once, stay logged in" IS)*
 
@@ -240,5 +241,20 @@ All confirmed findings fixed on `feat/quick-wins-batch`:
 - **2026-06-13** — Build env: created `local.properties` (sdk.dir, gitignored). gradlew chmod +x.
 
 ## Artifacts
-- Deep audit (49 findings, 8 agents): session task `wsm42ntc4` output.
-- Branch for quick wins: `feat/quick-wins-batch`.
+- Deep audit (49 findings, 8 agents): session task `wsm42ntc4`.
+- Design-directions research: `weq7064cz`. Driving-audio research: `w86usyybp`.
+  Ad-block research: `w0qxe5ouj`. Quality gate: `wig3eqh4t`.
+- **Branch: `feat/ux-perf-video-audio`** (was `feat/quick-wins-batch`). Commit `4a510a9`.
+- **PR #1: https://github.com/CreatorGhost/AABrowser/pull/1** — quick wins + video sprint +
+  review hardening. Pushed as CreatorGhost. **STATUS: open, awaiting user test on head unit.**
+
+## USER DECISIONS (2026-06-13)
+- **Ad block: STABLE TIER** chosen (general web hosts + cosmetic + Facebook feed + SponsorBlock).
+  NO fragile YouTube scriptlet (AD7 dropped). Pure-Kotlin/JS, no NDK/Rust — performant + low-risk.
+- **Aurora accent: NEON** chosen → using electric **neon cyan** (#00E5FF-family) as the brand
+  accent on AMOLED black, with dark on-accent text for contrast. (A4 unblocked.)
+
+## NEXT
+1. Test PR #1 on the head unit (audio-while-driving, OAuth popups, brand theme).
+2. Sprint AD (in progress on `feat/adblock-stable`): stable-tier ad blocking.
+3. Sprint A (Expressive Aurora, neon cyan) after ad-block.

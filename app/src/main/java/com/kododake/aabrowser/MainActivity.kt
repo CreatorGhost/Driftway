@@ -160,6 +160,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         applySystemBarAppearance()
         setupMediaSession()
+        com.kododake.aabrowser.adblock.AdBlockManager.initialize(this)
 
         if (BrowserPreferences.isAnalyticsEnabled(this)) {
             umamiTracker.trackEvent("app_open")
