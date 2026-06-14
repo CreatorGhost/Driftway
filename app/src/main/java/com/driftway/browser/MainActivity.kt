@@ -189,7 +189,8 @@ class MainActivity : AppCompatActivity() {
 
         setupUi()
         setupBackPressHandling()
-        ensureNotificationPermissionIfNeeded()
+        // Notification permission is deferred to first media playback (see handleMediaState) so the
+        // empty home isn't greeted by a system permission dialog on first launch.
         showFreeDroidWarnOnUpgradeMaterial()
     }
 
@@ -2038,6 +2039,9 @@ class MainActivity : AppCompatActivity() {
                 if (!isMediaPlaying) {
                     isMediaPlaying = true
                     hasActiveMediaSession = true
+                    // First real playback is the right moment to ask for notification permission
+                    // (the media notification needs it) — not on the empty home at launch.
+                    ensureNotificationPermissionIfNeeded()
                     controller.onPlaybackStarted(state.positionMs)
                 } else {
                     controller.onPlaybackProgress(state.positionMs)

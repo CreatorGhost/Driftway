@@ -21,7 +21,9 @@ enum class AppThemeMode(
 
     companion object {
         fun fromKey(key: String?): AppThemeMode {
-            return entries.firstOrNull { it.storageKey == key } ?: AUTO
+            // Driftway is an AMOLED-dark brand (the home is always dark) — default the whole app
+            // to DARK so the menu/settings/dialogs stay cohesive instead of following a light system.
+            return entries.firstOrNull { it.storageKey == key } ?: DARK
         }
     }
 }

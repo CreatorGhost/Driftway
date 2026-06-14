@@ -70,11 +70,13 @@ object SettingsViews {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply { topMargin = dp(16) }
-            radius = dp(16).toFloat()
+            radius = dp(22).toFloat()
             cardElevation = 0f
             strokeWidth = dp(1)
-            strokeColor = getColorFromAttr(com.google.android.material.R.attr.colorOutlineVariant)
-            setCardBackgroundColor(getColorFromAttr(com.google.android.material.R.attr.colorSurfaceContainerLow))
+            // Match the cinematic Driftway surfaces (home tiles / control bar) instead of the
+            // default Material container look.
+            strokeColor = Color.parseColor("#303C54")
+            setCardBackgroundColor(Color.parseColor("#161E2D"))
         }
 
         fun createSectionTitle(
@@ -108,6 +110,7 @@ object SettingsViews {
                     text = titleText
                     setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_TitleMedium)
                     typeface = Typeface.DEFAULT_BOLD
+                    setTextColor(Color.parseColor("#F2F5FB"))
                 })
             }
         }
@@ -168,24 +171,25 @@ object SettingsViews {
             val row = LinearLayout(context).apply {
                 orientation = LinearLayout.HORIZONTAL
                 gravity = Gravity.CENTER_VERTICAL
-                setPadding(0, dp(16), 0, 0)
+                minimumHeight = dp(60)
+                setPadding(0, dp(18), 0, dp(2))
             }
             val textCol = LinearLayout(context).apply {
                 orientation = LinearLayout.VERTICAL
                 layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
-                    marginEnd = dp(12)
+                    marginEnd = dp(14)
                 }
             }
             textCol.addView(TextView(context).apply {
                 text = title
-                setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_TitleSmall)
-                setTextColor(onSurfaceColor)
+                setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_TitleMedium)
+                setTextColor(Color.parseColor("#F2F5FB"))
             })
             textCol.addView(TextView(context).apply {
                 text = description
                 setPadding(0, dp(4), 0, 0)
-                setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodySmall)
-                setTextColor(getColorFromAttr(com.google.android.material.R.attr.colorOnSurfaceVariant))
+                setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyMedium)
+                setTextColor(Color.parseColor("#9AA6BC"))
             })
             val switch = SwitchMaterial(context).apply {
                 isChecked = initialChecked
@@ -227,11 +231,11 @@ object SettingsViews {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
-            radius = dp(16).toFloat()
+            radius = dp(22).toFloat()
             cardElevation = 0f
-            setCardBackgroundColor(getColorFromAttr(com.google.android.material.R.attr.colorSurfaceContainerLow))
+            setCardBackgroundColor(Color.parseColor("#161E2D"))
             strokeWidth = dp(1)
-            strokeColor = getColorFromAttr(com.google.android.material.R.attr.colorOutlineVariant)
+            strokeColor = Color.parseColor("#303C54")
         }
         val headerInner = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
@@ -245,15 +249,14 @@ object SettingsViews {
         titleCol.addView(TextView(context).apply {
             id = R.id.settingsHeaderTitle
             text = context.getString(R.string.settings_title)
-            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_TitleLarge)
-            setTextColor(onSurfaceColor)
+            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_HeadlineSmall)
+            setTextColor(Color.parseColor("#F2F5FB"))
             typeface = Typeface.DEFAULT_BOLD
         })
         titleCol.addView(TextView(context).apply {
             text = context.getString(R.string.settings_subtitle)
-            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodySmall)
-            setTextColor(onSurfaceVariantColor)
-            alpha = 0.8f
+            setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyMedium)
+            setTextColor(Color.parseColor("#9AA6BC"))
         })
         val backBtn = MaterialButton(context, null, androidx.appcompat.R.attr.borderlessButtonStyle).apply {
             id = R.id.buttonSettingsBack

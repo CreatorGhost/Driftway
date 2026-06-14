@@ -542,7 +542,7 @@
                                 android:layout_height="wrap_content"
                                 app:cardCornerRadius="16dp"
                                 app:cardElevation="0dp"
-                                app:cardBackgroundColor="?attr/colorSurfaceContainerLow"
+                                app:cardBackgroundColor="#161E2D"
                                 app:strokeWidth="0dp">
 
                                 <LinearLayout
@@ -598,8 +598,8 @@
                                 app:cardCornerRadius="28dp"
                                 app:cardElevation="0dp"
                                 app:strokeWidth="1dp"
-                                app:strokeColor="?attr/colorOutlineVariant"
-                                app:cardBackgroundColor="?attr/colorSurfaceContainerHigh">
+                                app:strokeColor="#303C54"
+                                app:cardBackgroundColor="#161E2D">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -673,191 +673,89 @@
                                 app:cardCornerRadius="@dimen/card_corner_radius"
                                 app:cardElevation="0dp"
                                 app:strokeWidth="1dp"
-                                app:strokeColor="?attr/colorOutlineVariant"
-                                app:cardBackgroundColor="?attr/colorSurfaceContainerLow">
+                                app:strokeColor="#303C54"
+                                app:cardBackgroundColor="#161E2D">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="vertical">
-
-                                    <GridLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:columnCount="3"
-                                        android:rowCount="2"
-                                        android:padding="12dp"
-                                        android:alignmentMode="alignBounds"
-                                        android:columnOrderPreserved="false">
-
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/buttonBack"
-                                        style="@style/Widget.Material3.Button.TonalButton"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_columnWeight="1"
-                                        android:layout_row="0"
-                                        android:layout_column="0"
-                                        android:layout_margin="4dp"
-                                        android:text="@string/menu_back"
-                                        android:textSize="13sp"
-                                        app:icon="@drawable/arrow_back_24px"
-                                        app:iconGravity="top"
-                                        app:iconSize="@dimen/icon_size_small"
-                                        app:iconPadding="4dp" />
+                                    android:orientation="vertical"
+                                    android:padding="8dp">
 
                                     <com.google.android.material.button.MaterialButton
                                         android:id="@+id/buttonReload"
-                                        style="@style/Widget.Material3.Button.TonalButton"
-                                        android:layout_width="0dp"
+                                        style="@style/Widget.Driftway.MenuRow"
                                         android:layout_height="wrap_content"
-                                        android:layout_columnWeight="1"
-                                        android:layout_row="0"
-                                        android:layout_column="1"
-                                        android:layout_margin="4dp"
                                         android:text="@string/menu_reload"
-                                        android:textSize="13sp"
-                                        app:icon="@drawable/refresh_24px"
-                                        app:iconGravity="top"
-                                        app:iconSize="@dimen/icon_size_small"
-                                        app:iconPadding="4dp" />
+                                        app:icon="@drawable/refresh_24px" />
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/buttonBack"
+                                        style="@style/Widget.Driftway.MenuRow"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/menu_back"
+                                        app:icon="@drawable/arrow_back_24px" />
 
                                     <com.google.android.material.button.MaterialButton
                                         android:id="@+id/buttonForward"
-                                        style="@style/Widget.Material3.Button.TonalButton"
-                                        android:layout_width="0dp"
+                                        style="@style/Widget.Driftway.MenuRow"
                                         android:layout_height="wrap_content"
-                                        android:layout_columnWeight="1"
-                                        android:layout_row="0"
-                                        android:layout_column="2"
-                                        android:layout_margin="4dp"
                                         android:text="@string/menu_forward"
-                                        android:textSize="13sp"
-                                        app:icon="@drawable/arrow_forward_24px"
-                                        app:iconGravity="top"
-                                        app:iconSize="@dimen/icon_size_small"
-                                        app:iconPadding="4dp" />
+                                        app:icon="@drawable/arrow_forward_24px" />
 
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/buttonBookmarks"
-                                        style="@style/Widget.Material3.Button.TonalButton"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_columnWeight="1"
-                                        android:layout_row="1"
-                                        android:layout_column="0"
-                                        android:layout_margin="4dp"
-                                        android:text="@string/menu_bookmarks"
-                                        android:textSize="13sp"
-                                        app:icon="@drawable/kid_star_24px"
-                                        app:iconGravity="top"
-                                        app:iconSize="@dimen/icon_size_small"
-                                        app:iconPadding="4dp" />
-
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/buttonExternal"
-                                        style="@style/Widget.Material3.Button.TonalButton"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_columnWeight="1"
-                                        android:layout_row="1"
-                                        android:layout_column="1"
-                                        android:layout_margin="4dp"
-                                        android:text="External"
-                                        android:textSize="13sp"
-                                        app:icon="@drawable/share"
-                                        app:iconGravity="top"
-                                        app:iconSize="@dimen/icon_size_small"
-                                        app:iconPadding="4dp" />
-
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/buttonSettings"
-                                        style="@style/Widget.Material3.Button.TonalButton"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_columnWeight="1"
-                                        android:layout_row="1"
-                                        android:layout_column="2"
-                                        android:layout_margin="4dp"
-                                        android:text="@string/menu_settings"
-                                        android:textSize="13sp"
-                                        app:icon="@drawable/settings_24px"
-                                        app:iconGravity="top"
-                                        app:iconSize="@dimen/icon_size_small"
-                                        app:iconPadding="4dp" />
-
-                                    </GridLayout>
-
-                                </LinearLayout>
-                            </com.google.android.material.card.MaterialCardView>
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                app:cardCornerRadius="@dimen/card_corner_radius"
-                                app:cardElevation="0dp"
-                                app:strokeWidth="1dp"
-                                app:strokeColor="?attr/colorOutlineVariant"
-                                app:cardBackgroundColor="?attr/colorSurfaceContainerLow">
-
-                                <GridLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:columnCount="3"
-                                    android:rowCount="1"
-                                    android:padding="12dp"
-                                    android:alignmentMode="alignBounds"
-                                    android:columnOrderPreserved="false">
+                                    <View android:layout_width="match_parent" android:layout_height="1dp"
+                                        android:layout_marginTop="6dp" android:layout_marginBottom="6dp"
+                                        android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
+                                        android:background="#232E44" />
 
                                     <com.google.android.material.button.MaterialButton
                                         android:id="@+id/buttonStartPage"
-                                        style="@style/Widget.Material3.Button.TonalButton"
-                                        android:layout_width="0dp"
+                                        style="@style/Widget.Driftway.MenuRow"
                                         android:layout_height="wrap_content"
-                                        android:layout_columnWeight="1"
-                                        android:layout_row="0"
-                                        android:layout_column="0"
-                                        android:layout_margin="4dp"
                                         android:text="@string/menu_start_page"
-                                        android:textSize="13sp"
-                                        app:icon="@drawable/home_24px"
-                                        app:iconGravity="top"
-                                        app:iconSize="@dimen/icon_size_small"
-                                        app:iconPadding="4dp" />
-
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/buttonTabs"
-                                        style="@style/Widget.Material3.Button.TonalButton"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_columnWeight="1"
-                                        android:layout_row="0"
-                                        android:layout_column="1"
-                                        android:layout_margin="4dp"
-                                        android:text="@string/menu_tabs"
-                                        android:textSize="13sp"
-                                        app:icon="@drawable/tab_group"
-                                        app:iconGravity="top"
-                                        app:iconSize="@dimen/icon_size_small"
-                                        app:iconPadding="4dp" />
+                                        app:icon="@drawable/home_24px" />
 
                                     <com.google.android.material.button.MaterialButton
                                         android:id="@+id/buttonNewTab"
-                                        style="@style/Widget.Material3.Button.TonalButton"
-                                        android:layout_width="0dp"
+                                        style="@style/Widget.Driftway.MenuRow"
                                         android:layout_height="wrap_content"
-                                        android:layout_columnWeight="1"
-                                        android:layout_row="0"
-                                        android:layout_column="2"
-                                        android:layout_margin="4dp"
                                         android:text="@string/menu_new_tab"
-                                        android:textSize="13sp"
-                                        app:icon="@drawable/new_window_24px"
-                                        app:iconGravity="top"
-                                        app:iconSize="@dimen/icon_size_small"
-                                        app:iconPadding="4dp" />
-                                </GridLayout>
+                                        app:icon="@drawable/new_window_24px" />
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/buttonTabs"
+                                        style="@style/Widget.Driftway.MenuRow"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/menu_tabs"
+                                        app:icon="@drawable/tab_group" />
+
+                                    <View android:layout_width="match_parent" android:layout_height="1dp"
+                                        android:layout_marginTop="6dp" android:layout_marginBottom="6dp"
+                                        android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
+                                        android:background="#232E44" />
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/buttonBookmarks"
+                                        style="@style/Widget.Driftway.MenuRow"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/menu_bookmarks"
+                                        app:icon="@drawable/kid_star_24px" />
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/buttonExternal"
+                                        style="@style/Widget.Driftway.MenuRow"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/open_external_browser"
+                                        app:icon="@drawable/share" />
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/buttonSettings"
+                                        style="@style/Widget.Driftway.MenuRow"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/menu_settings"
+                                        app:icon="@drawable/settings_24px" />
+
+                                </LinearLayout>
                             </com.google.android.material.card.MaterialCardView>
 
                             <com.google.android.material.card.MaterialCardView
@@ -867,8 +765,8 @@
                                 app:cardCornerRadius="@dimen/card_corner_radius"
                                 app:cardElevation="0dp"
                                 app:strokeWidth="1dp"
-                                app:strokeColor="?attr/colorOutlineVariant"
-                                app:cardBackgroundColor="?attr/colorSurfaceContainerLow">
+                                app:strokeColor="#303C54"
+                                app:cardBackgroundColor="#161E2D">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -1589,7 +1487,7 @@
                         android:contentDescription="@null" />
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:layout_marginTop="4dp" android:text="@string/menu_back"
-                        android:textColor="#C9D2E3" android:textSize="13sp" />
+                        android:textColor="#C9D2E3" android:textSize="15sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1608,7 +1506,7 @@
                         android:contentDescription="@null" />
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:layout_marginTop="4dp" android:text="@string/control_bar_home"
-                        android:textColor="#C9D2E3" android:textSize="13sp" />
+                        android:textColor="#C9D2E3" android:textSize="15sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1628,7 +1526,7 @@
                     <TextView android:id="@+id/controlTabsLabel"
                         android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:layout_marginTop="4dp" android:text="@string/menu_tabs"
-                        android:textColor="#C9D2E3" android:textSize="13sp" />
+                        android:textColor="#C9D2E3" android:textSize="15sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -1647,7 +1545,7 @@
                         android:contentDescription="@null" />
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:layout_marginTop="4dp" android:text="@string/control_bar_menu"
-                        android:textColor="#C9D2E3" android:textSize="13sp" />
+                        android:textColor="#C9D2E3" android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
