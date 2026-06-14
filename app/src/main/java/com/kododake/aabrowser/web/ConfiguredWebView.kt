@@ -113,6 +113,25 @@ fun configureWebView(
         // that page. AtomicBoolean because shouldInterceptRequest runs off the UI thread.
         val adBlockDisabledForPage = AtomicBoolean(false)
 
+        // Per-tab annoyance-guard state (this closure is created once per tab). Declared above
+        // BOTH clients so onPageStarted (WebViewClient) can reset it on navigation while the
+        // WebChromeClient dialog/popup handlers read and update it.
+        var jsDialogWindowStart = 0L
+        var jsDialogCount = 0
+        var suppressDialogsForPage = false
+        var lastPopupAt = 0L
+
+        fun popupBlockOn(ctx: android.content.Context?): Boolean =
+            ctx != null && com.kododake.aabrowser.data.BrowserPreferences.isPopupBlockEnabled(ctx)
+
+        // Reset on navigation so dialog suppression is per-page, not just per 4s window: a fresh
+        // page must start un-suppressed even if the user navigated quickly off a spam page.
+        fun resetJsDialogGuardForNewPage() {
+            jsDialogWindowStart = 0L
+            jsDialogCount = 0
+            suppressDialogsForPage = false
+        }
+
         //setLayerType(View.LAYER_TYPE_HARDWARE, null)
 
         webViewClient = object : WebViewClient() {
@@ -159,6 +178,7 @@ fun configureWebView(
 
             override fun onPageStarted(view: WebView, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
+                resetJsDialogGuardForNewPage()
                 val stringUrl = url ?: return
                 val uri = Uri.parse(stringUrl)
                 val scheme = uri.scheme?.lowercase()
@@ -269,15 +289,6 @@ fun configureWebView(
             }
         }
 
-        // Per-tab annoyance-guard state (this closure is created once per tab).
-        var jsDialogWindowStart = 0L
-        var jsDialogCount = 0
-        var suppressDialogsForPage = false
-        var lastPopupAt = 0L
-
-        fun popupBlockOn(ctx: android.content.Context?): Boolean =
-            ctx != null && com.kododake.aabrowser.data.BrowserPreferences.isPopupBlockEnabled(ctx)
-
         webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 callbacks.onProgressChange(newProgress)
@@ -380,10 +391,13 @@ fun configureWebView(
                 // Only honor popups triggered by a real user gesture (e.g. tapping "Sign in with
                 // Google/Apple"). Refusing programmatic window.open() blocks popup-spam / focus-
                 // steal / lookalike-tab phishing while preserving genuine OAuth flows.
-                if (!isUserGesture) { callbacks.onPopupBlocked(); return false }
+                // Gate popup blocking by the user's setting so turning it off restores the site
+                // "escape hatch" even for programmatic window.open().
+                val popupBlockEnabled = popupBlockOn(view?.context)
+                if (popupBlockEnabled && !isUserGesture) { callbacks.onPopupBlocked(); return false }
                 // Burst cap: a single tap that tries to open several windows in quick succession
                 // is a pop-under storm — allow the first, block the rest.
-                if (popupBlockOn(view?.context)) {
+                if (popupBlockEnabled) {
                     val now = android.os.SystemClock.elapsedRealtime()
                     if (now - lastPopupAt < 1200L) { callbacks.onPopupBlocked(); return false }
                     lastPopupAt = now

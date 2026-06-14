@@ -80,8 +80,8 @@
     <string name="settings_adblock_toggle_description">Recommended. Turn off if a site misbehaves.</string>
     <string name="settings_sponsorblock_toggle">SponsorBlock (YouTube)</string>
     <string name="settings_sponsorblock_toggle_description">Skips creator-read sponsor segments on YouTube. Off by default — when on, it sends the current video ID to the third-party service sponsor.ajay.app.</string>
-    <string name="settings_popup_toggle">Block pop-ups &amp; redirects</string>
-    <string name="settings_popup_toggle_description">Recommended. Blocks pop-up/pop-under windows, redirect storms, and dialog spam from sketchy sites. Turn off if a site needs a pop-up.</string>
+    <string name="settings_popup_toggle">Block pop-ups &amp; dialogs</string>
+    <string name="settings_popup_toggle_description">Recommended. Blocks pop-up/pop-under windows and dialog spam from sketchy sites. Turn off if a site needs pop-ups.</string>
     <string name="popup_blocked_toast">Blocked a pop-up</string>
     <string name="media_play">Play</string>
     <string name="media_pause">Pause</string>
