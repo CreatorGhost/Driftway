@@ -5,6 +5,25 @@
 > use safe defaults and are reversible. Standing rule still enforced: **no PR is merged before its
 > CodeRabbit review completes and its findings are fixed.**
 
+## ☀️ MORNING STATUS (2026-06-14)
+
+**Driftway 2.2-beta1 is LIVE and installable:** https://github.com/CreatorGhost/Driftway/releases/tag/v2.2-beta1
+
+| Stage | Status |
+|---|---|
+| 0 Home polish + blockers | ✅ done (NPE guard, IP-host title, Continue cap, Photo button off front) |
+| 1 Merge PRs to main | ⚠️ partial — #5 CR-reviewed + 3 findings fixed; **#6/#7 rate-limited by CR all night → NOT merged** (rule honored). Release built from integrated `release/driftway` branch instead. |
+| 2 Rebrand | ✅ done — package flip `com.driftway.browser`, name/icon/strings, update-checker → CreatorGhost/Driftway, analytics + donations de-leaked |
+| 3 Control bar (swipe-up) | ⛔ not done (next priority) |
+| 4 Pre-launch fixes | ⚠️ partial — home fixes done; **notification-perm deferral + menu ≥16sp legibility + full photo-feature code removal still pending** |
+| 5 Signed release build | ✅ done — `Driftway-2.2-beta1.apk`, verified signed |
+| 6 Thorough emulator test | ✅ functional pass — launches/responsive, branded home both orientations, browsing (example.com + YouTube), no crashes. **Deep press-play audio playback = unchanged media code from the verified audio-focus fix; confirm on your phone.** |
+| 7 Rename repo + publish | ✅ done — repo = CreatorGhost/Driftway; release published; updater `/releases/latest` resolves it |
+
+**Verified:** published signed APK installs + launches; in-app updater will detect v2.2-beta1.
+**Your follow-ups (told me you'd provide):** your own analytics endpoint + sponsor/Bitcoin (TODO seams left in code).
+**Top remaining build work:** Stage 3 control bar → Stage 4 (defer notification prompt, menu legibility, finish photo-feature removal) → then CR-merge #5/#6/#7 to main and reconcile the rebrand onto main.
+
 ## Decisions locked for this run (defaults — change any in the morning)
 
 | # | Decision | Choice (FINAL, owner-confirmed 2026-06-14) | Notes |
