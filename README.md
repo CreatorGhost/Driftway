@@ -7,6 +7,10 @@
 **A premium, car‑native browser for parked head units.**
 Driftway turns a parked car's screen into a cinematic media hub — YouTube, Netflix, Crunchyroll, your AI assistants — with a true‑black AMOLED interface built for glancing, not squinting.
 
+<p align="center">
+  <img src="docs/screenshots/home.png" alt="Driftway Media Hub — the cinematic, car-native home screen with Entertainment and AI shelves" width="100%">
+</p>
+
 > [!WARNING]
 > **For parked use.** Driftway is designed for when the car is stationary or for passengers. Video playback requires explicit passenger confirmation. **If you are driving, keep your eyes on the road** — use audio and voice only.
 
@@ -23,6 +27,35 @@ Driftway turns a parked car's screen into a cinematic media hub — YouTube, Net
 - 🗣️ **Read‑Aloud (TTS)** — have the current page's text read to you. Listen to articles while driving.
 - 🎙️ **Voice search** — tap the mic and speak a search or a URL.
 - 🗂️ **Tabs, bookmarks & more** — real multi‑tab browsing with a tab manager, dashboard bookmarks, QR share, smart desktop mode, and a global display‑scale control.
+
+---
+
+## 📸 Screenshots
+
+> Captured on a landscape head‑unit display — the layout Driftway is built for.
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="docs/screenshots/menu.png" alt="Driftway menu — a clean vertical list of actions">
+      <br><sub><b>Sleek menu</b> — every control one tap away, no browser clutter.</sub>
+    </td>
+    <td width="50%" valign="top">
+      <img src="docs/screenshots/control-bar.png" alt="Driftway swipe-up control bar">
+      <br><sub><b>Swipe‑up control bar</b> — Back · Home · Tabs · Menu, always within reach.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="docs/screenshots/browsing.png" alt="Browsing YouTube inside Driftway">
+      <br><sub><b>The real web</b> — full sites and real video, not a stripped‑down shell.</sub>
+    </td>
+    <td width="50%" valign="top">
+      <img src="docs/screenshots/settings.png" alt="Driftway settings and preferences">
+      <br><sub><b>Settings</b> — legible AMOLED‑dark preferences and built‑in updates.</sub>
+    </td>
+  </tr>
+</table>
 
 ---
 
