@@ -16,3 +16,6 @@ icon.png
 /test
 # transient design renders
 docs/mockups/*.png
+
+.playwright-mcp/
+*-icons.png

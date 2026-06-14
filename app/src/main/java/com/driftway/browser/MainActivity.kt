@@ -2541,7 +2541,14 @@ class MainActivity : AppCompatActivity() {
         if (isInFullscreen()) exitFullscreen()
         isShowingStartPage = true
         isStartPagePhotoOnlyMode = false
-        binding.startPageRoot.visibility = View.VISIBLE
+        binding.startPageRoot.apply {
+            visibility = View.VISIBLE
+            // Light, hardware-accelerated fade-in — smooth even on weak head units.
+            animate().cancel()
+            alpha = 0f
+            animate().alpha(1f).setDuration(200L)
+                .setInterpolator(android.view.animation.DecelerateInterpolator()).start()
+        }
         webView?.visibility = View.INVISIBLE
         binding.pageTitle.text = getString(R.string.start_page_title)
         binding.addressEdit.setText("")
