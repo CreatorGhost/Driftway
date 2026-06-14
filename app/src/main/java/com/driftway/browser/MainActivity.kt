@@ -2358,6 +2358,13 @@ class MainActivity : AppCompatActivity() {
             "kick.com" -> "Kick"
             "wikipedia.org" -> "Wikipedia"
             "weather.com" -> "Weather"
+            "chatgpt.com" -> "ChatGPT"
+            "chat.openai.com" -> "ChatGPT"
+            "claude.ai" -> "Claude"
+            "gemini.google.com" -> "Gemini"
+            "perplexity.ai" -> "Perplexity"
+            "copilot.microsoft.com" -> "Copilot"
+            "grok.com" -> "Grok"
             else -> null
         }
         if (mappedTitle != null) return mappedTitle
@@ -2544,6 +2551,7 @@ class MainActivity : AppCompatActivity() {
     private fun refreshStartPage() {
         applyStartPageColumnsOrientation()
         refreshStartPageQuickLinks()
+        populateAiShelf()
         refreshContinueWatching()
         refreshStartPageBackground()
         refreshStartPageResumeButton()
@@ -2789,6 +2797,77 @@ class MainActivity : AppCompatActivity() {
                 addView(shelf)
             }
         )
+    }
+
+    /** Fixed "AI" shelf: quick access to assistants (ChatGPT/Claude/Gemini/Perplexity/Copilot). */
+    private fun populateAiShelf() {
+        if (!::binding.isInitialized) return
+        val container = binding.aiShelfContainer
+        val density = resources.displayMetrics.density
+        fun dp(v: Float) = (v * density).toInt()
+        container.removeAllViews()
+        val aiSites = listOf(
+            "https://chatgpt.com",
+            "https://claude.ai",
+            "https://gemini.google.com",
+            "https://perplexity.ai",
+            "https://copilot.microsoft.com"
+        )
+        val shelf = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        aiSites.forEach { url ->
+            shelf.addView(createAiTile(url).apply {
+                layoutParams = LinearLayout.LayoutParams(dp(152f), dp(134f)).apply { marginEnd = dp(14f) }
+            })
+        }
+        container.addView(
+            android.widget.HorizontalScrollView(this).apply {
+                layoutParams = LinearLayout.LayoutParams(-1, -2)
+                isHorizontalScrollBarEnabled = false
+                clipToPadding = false
+                addView(shelf)
+            }
+        )
+    }
+
+    private fun createAiTile(url: String): View {
+        val density = resources.displayMetrics.density
+        fun dp(v: Float) = (v * density).toInt()
+        return com.google.android.material.card.MaterialCardView(this).apply {
+            radius = 20 * density
+            strokeWidth = dp(1f)
+            strokeColor = android.graphics.Color.parseColor("#2A3142")
+            setCardBackgroundColor(android.graphics.Color.parseColor("#0C1017"))
+            isClickable = true
+            isFocusable = true
+            setOnClickListener { loadUrlFromIntent(url) }
+            addView(LinearLayout(this@MainActivity).apply {
+                orientation = LinearLayout.VERTICAL
+                gravity = android.view.Gravity.CENTER
+                setPadding(dp(16f), dp(20f), dp(16f), dp(20f))
+                addView(
+                    createSiteIconBadge(
+                        url = url,
+                        sizeDp = 56f,
+                        cornerRadiusDp = 16f,
+                        paddingDp = 10f,
+                        backgroundColor = android.graphics.Color.WHITE,
+                        showAddOnEmptyUrl = false
+                    )
+                )
+                addView(MaterialTextView(this@MainActivity).apply {
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    ).apply { topMargin = dp(12f) }
+                    text = displayTitleForUrl(url)
+                    gravity = android.view.Gravity.CENTER
+                    maxLines = 1
+                    ellipsize = TextUtils.TruncateAt.END
+                    setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_TitleMedium)
+                    setTextColor(android.graphics.Color.parseColor("#F2F5FB"))
+                })
+            })
+        }
     }
 
     private fun createStartPageSlotCard(slotIndex: Int, url: String?): View {
