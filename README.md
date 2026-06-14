@@ -1,171 +1,77 @@
-# <img src="https://github.com/user-attachments/assets/fa4252fa-b71e-4c87-9b93-d8ad832434cc" width="48" height="48" valign="bottom" /> AA Browser
+# Driftway
 
 [![Android](https://img.shields.io/badge/Android-15%2B-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://www.android.com/)
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0)
-[<img src="https://github.com/user-attachments/assets/1551eaef-432d-4634-875c-f085870d00a1" alt="Get it on Obtainium" height="40">](https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22com.kododake.aabrowser%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Fkododake%2FAABrowser%22%2C%22author%22%3A%22kododake%22%2C%22name%22%3A%22AABrowser%22%2C%22preferredApkIndex%22%3A0%2C%22additionalSettings%22%3A%22%7B%5C%22includePrereleases%5C%22%3Afalse%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%2C%5C%22filterReleaseTitlesByRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22filterReleaseNotesByRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22verifyLatestTag%5C%22%3Afalse%2C%5C%22sortMethodChoice%5C%22%3A%5C%22date%5C%22%2C%5C%22useLatestAssetDateAsReleaseDate%5C%22%3Afalse%2C%5C%22releaseTitleAsVersion%5C%22%3Afalse%2C%5C%22trackOnly%5C%22%3Afalse%2C%5C%22versionExtractionRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22matchGroupToUse%5C%22%3A%5C%22%5C%22%2C%5C%22versionDetection%5C%22%3Atrue%2C%5C%22releaseDateAsVersion%5C%22%3Afalse%2C%5C%22useVersionCodeAsOSVersion%5C%22%3Afalse%2C%5C%22apkFilterRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22invertAPKFilter%5C%22%3Afalse%2C%5C%22autoApkFilterByArch%5C%22%3Atrue%2C%5C%22appName%5C%22%3A%5C%22%5C%22%2C%5C%22appAuthor%5C%22%3A%5C%22%5C%22%2C%5C%22shizukuPretendToBeGooglePlay%5C%22%3Afalse%2C%5C%22allowInsecure%5C%22%3Afalse%2C%5C%22exemptFromBackgroundUpdates%5C%22%3Afalse%2C%5C%22skipUpdateNotifications%5C%22%3Afalse%2C%5C%22about%5C%22%3A%5C%22%5C%22%2C%5C%22refreshBeforeDownload%5C%22%3Afalse%2C%5C%22includeZips%5C%22%3Afalse%2C%5C%22zippedApkFilterRegEx%5C%22%3A%5C%22%5C%22%7D%22%2C%22overrideSource%22%3Anull%7D)
+[![Release](https://img.shields.io/github/v/release/CreatorGhost/Driftway?style=for-the-badge&color=1565FF)](https://github.com/CreatorGhost/Driftway/releases/latest)
 
-**The ultimate WebView browser experience for Android Auto head units.**
-Transform in-car media with a sleek, modern browser designed specifically for head-unit displays.
+**A premium, car‑native browser for parked head units.**
+Driftway turns a parked car's screen into a cinematic media hub — YouTube, Netflix, Crunchyroll, your AI assistants — with a true‑black AMOLED interface built for glancing, not squinting.
 
-> [!CAUTION]
-> **Beware of Fake Websites**
-> Fake websites impersonating AA Browser have appeared. **This GitHub repository (https://github.com/kododake/AABrowser) is the ONLY official source.** To prevent malware infections and financial damage, absolutely do not trust or download from any other websites.
-
-
-
-> [!NOTE]
-> **Requires Android 15 or later**
->
-> 📲 **Easy Install:** No need for a special installer. Just download and install.
->
-> 🚀 **Updates:** Using **[Obtainium](https://github.com/ImranR98/Obtainium)** (linked above) is recommended to keep the app automatically up to date without limitations. Alternatively, you can download the APK from [GitHub Releases](https://github.com/kododake/AABrowser/releases).
+> [!WARNING]
+> **For parked use.** Driftway is designed for when the car is stationary or for passengers. Video playback requires explicit passenger confirmation. **If you are driving, keep your eyes on the road** — use audio and voice only.
 
 ---
-
-<div align="center">
-  <img width="90%" src="docs/img/aabrowser1.png" alt="AA Browser showcase screenshot" />
-</div>
 
 ## ✨ Features
 
-- 🎯 **Native Automotive UI:** Designed specifically for car displays, not just a stretched phone app.
-- 🎬 **Immersive Media:** Watch fullscreen DRM-protected video (supports Widevine L3 only due to technical limitations) with a clear passenger/non-driver consent gate before real playback; muted previews do not interrupt browsing.
-- 🎨 **Light + AMOLED Themes:** Switch between a bright light theme and a true-black AMOLED dark mode built for car displays.
-- 🌓 **Beta Dark Pages:** Optionally ask WebView to darken supported pages while the dark theme is active.
-- 🏠 **Home Page Or Start Page:** Launch straight into a custom home page, or use the start page dashboard when no home page is set.
-- 🚀 **Six Quick Links:** The start page now supports up to six shortcut cards with default popular sites and a custom background image.
-- 🗂️ **Real Tabs + Tab Manager:** Open multiple browser tabs, switch between them from the in-app tab manager, and close tabs without losing your place.
-- ♻️ **Restore Last Tabs:** Optionally reopen the full tab session from your previous launch when no home page override is active.
-- 🔁 **Resume Last Page:** Optionally reopen the last visited page on launch when no home page is configured.
-- 🧭 **Persistent URL Bar:** Optionally keep a compact address bar visible above the page for faster browsing.
-- 🎛️ **Configurable Quick Action Button:** Choose whether the floating button opens the controls menu or jumps straight to the URL bar, keep it always visible, and move it to a corner that fits your screen.
-- 🖼️ **Cached Site Icons:** Quick-link cards cache first-party site icons locally so the start page stays branded without refetching on every launch.
-- 🔎 **Global Display Scale:** Adjust the full UI and page-content scale together with presets or a custom percentage.
-- 🔄 **Smart Desktop Mode:** Seamlessly toggle between mobile and desktop rendering.
-- 📚 **Dashboard Bookmarks:** Quick access to your favorite sites without touching your phone.
-
-
-### 📸 Screenshots
-
-<div align="center">
-  <img width="44%" src="docs/screenshots/litemode.gif" alt="AA Browser light mode live screenshot" />
-  <img width="44%" src="docs/screenshots/darkmode.gif" alt="AA Browser dark mode live screenshot" />
-</div>
+- 🎬 **Cinematic Media Hub home** — a landscape, left/right layout with an **Entertainment** shelf (YouTube · Netflix · Crunchyroll · Animetsu · Twitch) and an **AI** shelf (ChatGPT · Claude · Gemini · Perplexity · Copilot), real site logos, and a "Continue" row.
+- 🎛️ **Swipe‑up control bar** — a fixed, always‑visible handle reveals **Back · Home · Tabs · Menu**. No hunting for a floating button.
+- 🌌 **AMOLED‑dark design** — one electric‑blue accent on true black, a soft squircle shape language, and a glanceable type scale. Smooth, lightweight motion that stays fluid on any head unit.
+- 🛡️ **Ad, tracker & pop‑up blocking** — blocks ad/tracker requests, hides leftover ad slots, and stops pop‑up / pop‑under / dialog spam on sketchy sites. *(YouTube's own video ads can't be reliably blocked — see Limitations.)* Includes optional **SponsorBlock** for YouTube.
+- 🔊 **Background audio** — audio keeps playing when the app is backgrounded or the screen is off, with full media‑notification controls.
+- 🔒 **Passenger video consent gate** — video only starts after a passenger/non‑driver confirms; muted previews never interrupt browsing.
+- 🗣️ **Read‑Aloud (TTS)** — have the current page's text read to you. Listen to articles while driving.
+- 🎙️ **Voice search** — tap the mic and speak a search or a URL.
+- 🗂️ **Tabs, bookmarks & more** — real multi‑tab browsing with a tab manager, dashboard bookmarks, QR share, smart desktop mode, and a global display‑scale control.
 
 ---
 
-## 📱 Quick Start & Safety 🚦
+## 📦 Install
 
-#### 🛑 Developer's Safety Request
+> **Requires Android 15+.** Sideload only.
 
-* **Driver's Duty:** If you're the one steering, **DO NOT WATCH VIDEO ON THIS APP.** Keep your eyes on the road and use audio/voice controls only.
-* **Passenger Consent:** Video playback must be confirmed by a passenger or non-driver before it starts. The consent prompt is part of the feature, not an optional warning.
-* **Legal Note:** I built the code, but the **GPLv3 license** means I am **NOT RESPONSIBLE** for your actions. Drive smart!
+1. Download the latest **`Driftway-x.y.apk`** from **[GitHub Releases](https://github.com/CreatorGhost/Driftway/releases/latest)**.
+2. Install it. To **update**, install the new APK *over* the existing one (don't uninstall) so your logins and data are kept.
 
----
+<details>
+<summary><b>Enabling sideloaded apps on Android Auto</b></summary>
 
-#### 🛠️ How to Enable Unknown Sources on Android Auto
-
-To use this app, you must unlock the hidden Developer Settings.
-
-1. **Open Android Auto Settings:** Search for "Android Auto" in your phone's settings.
-2. **Unlock Developer Mode:** Scroll to the bottom and **tap the "Version" section 10 times**. Tap **OK** on the pop-up.
-3. **Open Developer Settings:** Tap the **three-dot menu (⋮)** in the top-right corner -> **Developer settings**.
-4. **Enable Unknown Sources:** Find the **Unknown sources** checkbox and turn it on.
+1. Open your phone's **Android Auto** settings.
+2. Tap the **Version** entry **10 times** to unlock Developer settings.
+3. Open the **⋮ menu → Developer settings**.
+4. Enable **Unknown sources**.
+</details>
 
 ---
 
-## ❓ Troubleshooting
+## ⚠️ Limitations (honest)
 
-**App not starting?**
-If the app fails to launch, try opening a non-Google Maps navigation app (such as **Waze**) first, then open AA Browser.
-
----
-
-## ⚠️ Current Issues
-
-- 🚫 **No Ad Blocking:** Ad filtering is not currently implemented (contributions welcome!).
-- 🚘 **Host/OEM limits vary:** Driftway does not voluntarily close passenger-confirmed video playback, but external Android Auto / AAOS behavior can still vary by host and region.
+- 📺 **Video in motion is blocked by the platform** — this is an Android Auto / AAOS rule, not a Driftway choice. Driftway is for parked use.
+- 🔐 **Widevine L3 only** — DRM video (Netflix etc.) is limited to standard definition by the head unit's DRM level.
+- 🚫 **YouTube video ads aren't blocked** — they're served inside the video stream and can't be reliably removed in a WebView. General web ads, trackers, and pop‑ups *are* blocked.
+- 🚘 **Host behavior varies** — exact projection behavior differs by car/OEM and region.
 
 ---
 
-## 🤝 Contributors
+## 🔒 Privacy
 
-Every contribution makes AA Browser better!
-
-- 🐛 **Found a bug?** Check for existing issues and open a new one with reproduction steps if none are found.
-- 💡 **Got an idea?** Start a discussion.
-- 🔧 **Wanna code?** Fork the repo and submit a PR!
-- 📸 **Show it off:** Share a photo of AA Browser on your dashboard in the Discussions tab!
-
-<table width="100%">
-  <tr>
-    <td align="center" valign="top" width="20%">
-      <a href="https://github.com/kododake">
-        <img src="https://github.com/kododake.png?s=100" width="60" alt="kododake"/><br />
-        <sub><b>kododake</b></sub>
-      </a><br />
-      <sub>Project Lead</sub>
-    </td>
-    <td align="center" valign="top" width="20%">
-      <a href="https://github.com/cmacrowther">
-        <img src="https://github.com/cmacrowther.png?s=100" width="60" alt="Colin Crowther"/><br />
-        <sub><b>Colin Crowther</b></sub>
-      </a><br />
-      <sub>Design Improvements</sub>
-    </td>
-    <td align="center" valign="top" width="20%">
-      <a href="https://github.com/jigneshbhavani">
-        <img src="https://github.com/jigneshbhavani.png?s=100" width="60" alt="jigneshbhavani"/><br />
-        <sub><b>jigneshbhavani</b></sub>
-      </a><br />
-      <sub>Microphone Support</sub>
-    </td>
-    <td align="center" valign="top" width="20%">
-      <a href="https://github.com/SaveEditors">
-        <img src="https://github.com/SaveEditors.png?s=100" width="60" alt="SaveEditors"/><br />
-        <sub><b>SaveEditors</b></sub>
-      </a><br />
-      <sub>Multi-tab support, Home screen</sub>
-    </td>
-    <td align="center" valign="top" width="20%">
-      <a href="https://github.com/gregorixG">
-        <img src="https://github.com/gregorixG.png?s=100" width="60" alt="gregorixG"/><br />
-        <sub><b>gregorixG</b></sub>
-      </a><br />
-      <sub>Improve desktop site user agent handling</sub>
-    </td>
-  </tr>
-</table>
+- **No analytics, no trackers.** Driftway does not collect usage data or phone home.
+- **No URL/keystroke tracking** — your browsing stays on your device.
 
 ---
 
-## 💖 Special Thanks
+## 🙏 Credits
 
-- **[jdrch](https://github.com/jdrch):** For suggesting **Obtainium**—a brilliant idea for seamless updates!
-- **[Obtainium](https://github.com/ImranR98/Obtainium):** For being an amazing bridge between devs and users.
+Driftway is a complete redesign built on **[AABrowser](https://github.com/kododake/AABrowser) by Kododake**, the original Android‑Auto WebView browser. Huge thanks to Kododake and the original contributors — Driftway exists because of that groundwork. Licensed under **GPLv3**; original copyright and attribution are preserved.
 
----
+## 🤝 Contributing
 
-## 🛡️ Privacy, Reimagined
-I care about the app's growth, but I care about your privacy even more. This app is designed with a **Transparency-First** policy:
+Bug reports, ideas, and PRs are welcome — open an issue or a pull request.
 
-> [!IMPORTANT]
-> **I have ZERO interest in your browsing habits.**
-> - 🚫 **No URL Tracking:** I don't (and physically can't) see which websites you visit, what you search, or what you type.
-> - 🕵️ **Self-Hosted Analytics:** I use a private **Umami** instance. No IP track, No Google, No Meta, no Big Tech trackers.
-> - 🆔 **Anonymous Data:** I only see **"The app was opened"** and **This App Versions**. I use a random, anonymous UUID that isn't tied to your device ID or personal info.
+## 📄 License
+
+Released under the **[GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0)**. If you reuse this code, you must keep it open‑source under GPLv3 and preserve attribution.
 
 ---
 
-## ☕ Support a Student Developer
-
-If AA Browser makes your "car life" better, please consider a donation! As a student developer on a tight budget, your support covers daily expenses.
-
-**GitHub Sponsor:**
-https://github.com/sponsors/kododake
-
-*If you donate, please let me know in the Discussions! I'd love to add you to our contributor list as a token of my gratitude.*
-
----
-**Stay safe, keep your eyes on the road, and happy browsing! 🚗💨**
+**Stay parked, keep your eyes on the road, and enjoy the ride. 🚗💙**
